@@ -305,6 +305,7 @@ document.querySelectorAll('.for_entity_update').forEach(function(elem) {
     selection[0][elem.id] = elem.value = (elem.type == 'checkbox' ? elem.checked : elem.value)
     uiUpdate()
     editEntity(selection[0])
+    changeInputValues()
   }
 })
 
@@ -366,8 +367,8 @@ function move(e) {
       }
 
       if (shape == 'rect') {
-        selection[0].width = (x - elem.offsetLeft)
-        selection[0].height = (y - elem.offsetTop)
+        selection[0].width = Math.abs(x - elem.offsetLeft)
+        selection[0].height = Math.abs(y - elem.offsetTop)
       } else if (shape == 'ellipse') {
         selection[0].width = Math.abs((x - elem.offsetLeft) / 2)
         selection[0].height = Math.abs((y - elem.offsetTop) / 2)
