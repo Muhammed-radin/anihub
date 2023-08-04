@@ -1,0 +1,176 @@
+body {
+  margin: 0;
+  font-size: 12px;
+  background: #555;
+  color: #fff;
+}
+
+* {
+  font-family: sans-serif;
+  user-select: none
+}
+
+.left-box {
+  background: #222;
+  border: 1px solid #656565;
+  min-width: max-content;
+  height: 99.6vh;
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  top: 0;
+  left: 0;
+  z-index: 9;
+}
+
+.tools {
+  display: flex;
+  flex-direction: column;
+  overflow: scroll !important;
+}
+
+.tools ion-icon {
+  font-size: 23px;
+  padding: 5px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  overflow: scroll 
+}
+
+.proper {
+  display: flex;
+  flex-direction: row;
+  padding: 1px 3px;
+}
+
+.proper:hover{
+  background: #457DB3;
+}
+
+ion-icon:hover {
+  color: #457DB3;
+}
+
+.proper ion-icon {
+  margin: 0;
+  font-size: 16px
+}
+
+.proper-text {
+  font-size: 12px;
+  padding-right: 8px;
+  margin: 1px;
+  margin-left: 3px;
+  overflow-wrap: break-word;
+  width: 100px;
+}
+
+
+.active {
+  background-color: #5C9AD5;
+}
+
+.active-icn {
+  color: #5C9AD5;
+}
+
+.frames {
+  display: flex;flex-direction:column;
+  position: relative ;overflow: scroll;
+}
+
+.frame {
+  padding: 10px 16px;
+  display: flex;
+  margin: 3px;
+  border: 1px solid #fff
+}
+
+.add-frame {
+  position: sticky;
+  position: -webkit-sticky;
+  bottom: 0;
+  background: #4C749A;
+  border: 1px solid #4C749A;
+  left: 0;
+}
+
+
+
+canvas {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+ transform: translate(-50%, -50%);
+  border: 1px solid #ccc;
+  background: #ffffff20;
+  width: 300px;height: 200px;
+}
+
+.right-box {
+  background: #222;
+  border: 1px solid #656565;
+  width: max-content;
+  height: 99.6vh;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  top: 0;
+  right: 0;
+  z-index: 9;
+  overflow: scroll
+}
+
+
+.edit-proper input, .edit-proper select {
+  width: 50%;
+}
+
+.edit-proper .local-text {
+  padding-right: 10px;
+  width: 48%;
+  overflow: scroll;
+}
+
+.edit-proper {
+  margin: 4px;
+  display: flex;flex-direction:row;
+}
+
+input, select {
+  background-color: #222;
+  border: 1px solid #ccc;
+  outline: none;
+  padding: 3px;
+  color: #fff;
+  font-size: 10px;
+}
+
+input:hover {
+  border: 1px solid #5094C3;
+}
+
+.option-title {
+  background: #555;
+  color: #fff;
+  padding: 0.25rem;
+  padding-right: 5rem;
+}
+
+.ix {
+  width: 10px;
+  height: 100px;
+  background: #2733BC;
+  position: fixed;
+  top: 35%;
+  left: 0;
+  z-index: 9999999999999999
+}
+
+#inspectImg {
+  width: 300px;
+  height: 200px;
+}

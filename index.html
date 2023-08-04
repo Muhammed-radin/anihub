@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Editor</title>
+
+  <!-- HTML -->
+
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="left-box">
+    <div class="tools">
+      <ion-icon class="c-tool" name="reload-outline" data-tool="update"></ion-icon>
+      <ion-icon class="tool" name="move-outline" data-tool="move"></ion-icon>
+      <ion-icon class="tool" name="brush-outline" data-tool="brush"></ion-icon>
+      <ion-icon class="tool" name="shapes-outline" data-tool="shapes"></ion-icon>
+      <ion-icon class="tool" name="construct-outline" data-tool="edit"></ion-icon>
+      <ion-icon class="c-tool" name="image-outline" data-tool="image"></ion-icon>
+      <ion-icon class="tool" name="text-outline" data-tool="text"></ion-icon>
+      <ion-icon class="c-tool" name="copy-outline" data-tool="copy"></ion-icon>
+      <ion-icon class="c-tool" name="clipboard-outline" data-tool="paste"></ion-icon>
+      <ion-icon class="c-tool" name="color-fill-outline" data-tool="fill"></ion-icon>
+      <ion-icon class="c-tool" name="color-palette-outline" data-tool="color"></ion-icon>
+      <ion-icon class="c-tool" name="link-outline" data-tool="link"></ion-icon>
+      <ion-icon class="c-tool" name="trash-outline" data-tool="trash"></ion-icon>
+    </div>
+    <!--div class="ix"></div-->
+    <div class="list">
+      <!--div class="proper active">
+        <ion-icon name="shapes-outline"></ion-icon>
+        <div class="proper-text">rectangle_00</div>
+        <div class="inner"></div>
+      </div>
+      <div class="proper">
+        <ion-icon name="shapes-outline"></ion-icon>
+        <div class="proper-text">rectangle_01</div>
+        <div class="inner"></div>
+      </div>
+      <div class="proper">
+        <ion-icon name="shapes-outline"></ion-icon>
+        <div class="proper-text">rectangle_02</div>
+        <div class="inner"></div>
+      </div>
+      <div class="proper">
+        <ion-icon name="shapes-outline"></ion-icon>
+        <div class="proper-text">circle_00</div>
+        <div class="inner"></div>
+      </div>
+      <div class="proper">
+        <ion-icon name="brush-outline"></ion-icon>
+        <div class="proper-text">draw_00</div>
+        <div class="inner"></div>
+      </div>
+      <div class="proper">
+        <ion-icon name="shapes-outline"></ion-icon>
+        <div class="proper-text">circle_01</div>
+        <div class="inner"></div>
+      </div-->
+    </div>
+    <div class="frames" id="frames">
+      <div class="frame active">1</div>
+      <div class="frame add-frame">+</div>
+    </div>
+  </div>
+
+
+  <canvas id="c"></canvas>
+
+  <div class="right-box">
+    <div class="option-title" data-toggle="1" data-pair="toolpart_tool"><ion-icon name="chevron-down-outline"></ion-icon> Tool Properties </div>
+    <div class="toolpart_tool">
+      <div class="edit-proper">
+        <div class="local-text">Shape: </div class="local-text"><select name="shape" id="shape">
+          <option value="rect">rectangle</option>
+          <option value="circle">circle</option>
+          <option value="ellipse">ellipse</option>
+        </select>
+      </div>
+    </div>
+    <div class="option-title" data-toggle="1" data-pair="toolpart_general"><ion-icon name="chevron-down-outline"></ion-icon> General Edit</div>
+    <div class="toolpart_general" data-part="general">
+      <div class="edit-proper">
+        <div class="local-text">Name: </div class="local-text"><input class="for_entity_update" type="text" id="name">
+      </div>
+      <div class="edit-proper">
+        <div class="local-text">Enabled: </div class="local-text"><input class="for_entity_update" type="checkbox" id="render">
+      </div>
+      <div class="edit-proper">
+        <div class="local-text">Layer: </div class="local-text"><input class="for_entity_update" type="number" id="z">
+      </div>
+      <div class="edit-proper">
+        <div class="local-text">Top: </div class="local-text"><input class="for_entity_update" type="number" id="y">
+      </div>
+      <div class="edit-proper">
+        <div class="local-text">Left: </div class="local-text"><input class="for_entity_update" type="number" id="x">
+      </div>
+      <div class="edit-proper">
+        <div class="local-text">Width: </div class="local-text"><input class="for_entity_update" type="number" id="width">
+      </div>
+      <div class="edit-proper">
+        <div class="local-text">Height: </div class="local-text"><input class="for_entity_update" type="number" id="height">
+      </div>
+      <div class="edit-proper">
+        <div class="local-text">Text: </div class="local-text"><input class="for_entity_update" type="text" id="text">
+      </div>
+      <div class="edit-proper">
+        <div class="local-text">Font Size: </div class="local-text"><input class="for_entity_update" type="text" id="fontSize">
+      </div>
+      <div class="edit-proper">
+        <div class="local-text">Font: </div class="local-text"><select name="shape" class="for_entity_update" id="font">
+          <option value="sans-serif">Sans Serif</option>
+          <option value="monospace">monospace</option>
+        </select>
+      </div>
+      <div class="edit-proper">
+        <div class="local-text">Edges: </div class="local-text"><input class="for_entity_update" max="5.999999" type="range" id="arcLevel" value="0">
+      </div>
+      <div class="edit-proper">
+        <div class="local-text">Color: </div class="local-text"><input class="for_entity_update" type="color" id="color">
+      </div>
+      <div class="edit-proper">
+        <div class="local-text">Background: </div class="local-text"><input class="for_entity_update" type="color" id="fill">
+      </div>
+      <div class="edit-proper">
+        <div class="local-text">Stroke Width: </div class="local-text"><input class="for_entity_update" type="number" id="strokeWidth">
+      </div>
+      <div class="edit-proper">
+        <div class="local-text">Stroke Colour: </div class="local-text"><input class="for_entity_update" type="color" id="stroke">
+      </div>
+      <div class="edit-proper">
+        <div class="local-text">Shadow Radius: </div class="local-text"><input class="for_entity_update" type="number" id="shadow">
+      </div>
+      <div class="edit-proper">
+        <div class="local-text">Shadow Color: </div class="local-text"><input class="for_entity_update" type="color" id="shadowColor">
+      </div>
+      <div class="edit-proper">
+        <div class="local-text">Shadow Top: </div class="local-text"><input class="for_entity_update" type="number" id="shadowY">
+      </div>
+      <div class="edit-proper">
+        <div class="local-text">Shadow Left: </div class="local-text"><input class="for_entity_update" type="number" id="shadowX">
+      </div>
+    </div>
+    <div class="option-title" data-toggle="1" data-pair="inspectImg_tool"><ion-icon name="chevron-down-outline"></ion-icon> Image Inspect </div>
+    <div class="inspectImg_tool">
+    <img src="" alt="" id="inspectImg">
+    </div>
+  </div>
+
+  <!-- Project -->
+  <script src="mango.js"></script>
+  <script src="main.js"></script>
+</body>
+
+</html>
