@@ -25,7 +25,8 @@ function Mango() {
     idStorage: [],
     version: 1.0,
     dev_version: "1.9.29",
-    setWidth: function(w, h) {
+    setPixels: function(w, h) {
+      this.isCanvasFilled = false
       this.canvasElem.width = w;
       this.canvasElem.height = h;
     },
@@ -42,7 +43,8 @@ function Mango() {
       }
     },
     fillScreen: function() {
-      this.setWidth(window.innerWidth, window.innerHeight);
+      this.setPixels(window.innerWidth, window.innerHeight);
+      this.isCanvasFilled = true
       var myStyle = document.createElement("style");
       myStyle.innerHTML = `
         body {
@@ -747,6 +749,7 @@ function Mango() {
         })
       }
     },
+    isCanvasFilled: false,
     clear: function() {
       canvas.canvasCtx.clearRect(
         0,

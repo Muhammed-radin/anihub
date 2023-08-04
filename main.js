@@ -9,7 +9,7 @@ var entityGroup = canvas.entityGroup;
 var layer = canvas.Layer;
 var app = canvas.app
 
-canvas.setWidth(300, 200)
+canvas.setPixels(300, 200)
 
 var cTools = document.querySelectorAll('.c-tool')
 var tools = document.querySelectorAll('.tool')
@@ -21,7 +21,7 @@ var rootList = document.querySelector('.list')
 
 var editorBox = new entity({
   stroke: '#557BB4',
-  fill: '#ffffff30',
+  fill: '#ffffff10',
   isHidden: true,
   z: 9999999999999999
 })
@@ -43,7 +43,7 @@ var heightEditorBox = new entity({
   y: -100,
   fill: '#557BB4',
   isHidden: true,
-    z: 9999999999999999
+  z: 9999999999999999
 })
 
 var rotaterBox = new entity({
@@ -53,7 +53,7 @@ var rotaterBox = new entity({
   y: -100,
   fill: '#557BB4',
   isHidden: true,
-    z: 9999999999999999
+  z: 9999999999999999
 })
 
 var point = new entity({
@@ -64,7 +64,7 @@ var point = new entity({
   radius: 5,
   fill: '#557BB4',
   arcLevel: 3,
-    z: 9999999999999999
+  z: 9999999999999999
 })
 
 tools.forEach(function(elem) {
@@ -239,6 +239,7 @@ function update() {
       entity.scale = { x: graphical.scale, y: graphical.scale }
       if (entity.isHidden == undefined && entity.name != undefined) {
         entity.on('click', function(e) {
+          if (activeTool == 'edit') {
           selection = [entity]
           editEntity(entity)
           changeInputValues()
@@ -247,6 +248,7 @@ function update() {
           })
 
           document.querySelector('#ID_' + entity.id).className = 'proper active'
+          }
         })
       }
     }
@@ -530,7 +532,7 @@ let graphical = {
   update() {
     this.width = 300 * this.scale
     this.height = 200 * this.scale
-    canvas.setWidth(this.width, this.height)
+    canvas.setPixels(this.width, this.height)
   }
 }
 
