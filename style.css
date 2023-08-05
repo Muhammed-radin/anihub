@@ -181,3 +181,14 @@ input:hover {
   height: 200px;
   border: 1px solid #ccc
 }
+
+.right-box textarea {
+  width: 99%;
+  background: #222;
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 0;
+  font-size: 12px;
+  font-family: monospace;
+  outline: none;
+}

@@ -547,4 +547,4 @@ setInterval(function() {
 graphical.scale = 5
 graphical.update();
 
-canvas.repeatRender();
+canvas.specialRender();

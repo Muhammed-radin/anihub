@@ -153,6 +153,11 @@
     <div class="inspectImg_tool">
       <img src="" alt="" id="inspectImg" onerror="this.style.display = 'none'" onload="this.style.display = 'block'">
     </div>
+    <div class="option-title" data-toggle="1" data-pair="script_tool"><ion-icon name="chevron-down-outline"></ion-icon> Run Script </div>
+    <div class="script_tool">
+      <textarea name="" id="scriptInp" cols="30" rows="10"></textarea>
+      <input type="button" value="Run" onclick="eval(document.getElementById('scriptInp').value)">
+    </div>
   </div>
 
   <!-- Project -->
