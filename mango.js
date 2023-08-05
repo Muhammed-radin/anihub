@@ -24,7 +24,7 @@ function Mango() {
     },
     idStorage: [],
     version: 1.0,
-    dev_version: "1.9.29",
+    dev_version: "1.9.30",
     setPixels: function(w, h) {
       this.isCanvasFilled = false
       this.canvasElem.width = w;
@@ -198,10 +198,10 @@ function Mango() {
 
       this.store.forEach(function(layer, layerIndex) {
         if (layer.entities) {
-          layer.entities.sort(function(a, b){
+          layer.entities.sort(function(a, b) {
             return a.z - b.z;
           })
-          
+
           layer.entities.forEach(function(data, dataIndex) {
             ctx.beginPath();
             data.onupdated()
@@ -1108,27 +1108,27 @@ function Mango() {
     },
     specialRender() {
       var global = this.global;
-      var render = function() {
-        if (canvas.app.update instanceof Function) {
-          canvas.app.update();
-        } else {
-          console.warn("set function in update");
-        }
-        canvas.clear();
-        canvas.render();
-        if (canvas.app.onupdate instanceof Function) {
-          canvas.app.onupdate();
-        } else {
-          console.warn("set function in onupdate");
-        }
-      }
-      this._specialRender_timer = setInterval(function() {
+      window.requestAnimationFrame(function() {
+        //var render = function() {
+          if (canvas.app.update instanceof Function) {
+            canvas.app.update();
+          } else {
+            console.warn("set function in update");
+          }
+          canvas.clear();
+          canvas.render();
+          if (canvas.app.onupdate instanceof Function) {
+            canvas.app.onupdate();
+          } else {
+            console.warn("set function in onupdate");
+          }
+        //}
         global.time += 1;
         global.nowTime = Date.now()
         global.dt = global.lastTime ? (global.nowTime - global.lastTime) / 1000 : 0
         global.lastTime = global.nowTime
-        render()
-      }, global.maxTimeSpeed)
+        canvas.specialRender()
+      })
     },
     entityGroup: class entityGroup {
       constructor(name) {
