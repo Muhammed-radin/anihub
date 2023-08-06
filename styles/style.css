@@ -208,3 +208,42 @@ input:hover {
 textarea {
   font-size: 12px 
 }
+
+.progress {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  background: #222;
+  padding: 20px;
+  z-index: 9999999;
+  width: 60%;
+   box-shadow: 0 0 50px 4000px #33333390;
+}
+
+.progress * {
+  padding: 3px;
+}
+
+.progress progress {
+  border-radius: 0;
+  width: 95%;
+}
+
+::-webkit-progress-bar {
+  background: #fff;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+::-webkit-progress-value, ::-webkit-progress-inner-value, ::-webkit-progress-inner-element {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: #30BE57;
+}
+
+.progress .pr-title {
+  font-size: 14px
+}
