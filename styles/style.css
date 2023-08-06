@@ -212,6 +212,7 @@ textarea {
 .progress {
   position: fixed;
   top: 50%;
+  display: none;
   left: 50%;
   transform: translate(-50%,-50%);
   background: #222;
@@ -223,6 +224,7 @@ textarea {
 
 .progress * {
   padding: 3px;
+  margin: 2px;
 }
 
 .progress progress {
@@ -247,3 +249,4 @@ textarea {
 .progress .pr-title {
   font-size: 14px
 }
+

@@ -19,6 +19,17 @@ var touchstart = ''
 var touchend = ''
 var rootList = document.querySelector('.list')
 
+function inProgress(title, progress, body = '') {
+  document.querySelector('.progress').style.display = 'block'
+  document.querySelector('.progress').value = progress
+  document.querySelector('.pr-title').innerHTML = title
+  document.querySelector('.pr-body').innerHTML = body
+}
+
+function outProgress(){
+    document.querySelector('.progress').style.display = 'none'
+}
+
 var editorBox = new entity({
   stroke: '#557BB4',
   fill: '#ffffff10',
