@@ -192,3 +192,15 @@ input:hover {
   font-family: monospace;
   outline: none;
 }
+
+.api-box {
+  display: flex;flex-direction:column;
+}
+
+.api-proper {
+  padding: 5px;
+}
+
+.api-proper span {
+  color: #35AC5B;
+}

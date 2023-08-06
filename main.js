@@ -83,6 +83,10 @@ tools.forEach(function(elem) {
 })
 
 document.querySelectorAll('.option-title').forEach(function(elem) {
+  if (elem.dataset.toggle == 0) {
+    elem.querySelector('ion-icon').name = 'chevron-forward-outline'
+    document.querySelector('.' + elem.dataset.pair).style.display = 'none'
+  }
   elem.onclick = function() {
     if (elem.dataset.toggle == 1) {
       elem.dataset.toggle = 0
@@ -240,14 +244,14 @@ function update() {
       if (entity.isHidden == undefined && entity.name != undefined) {
         entity.on('click', function(e) {
           if (activeTool == 'edit') {
-          selection = [entity]
-          editEntity(entity)
-          changeInputValues()
-          document.querySelectorAll('.list .proper').forEach(function(elem) {
-            elem.className = 'proper'
-          })
+            selection = [entity]
+            editEntity(entity)
+            changeInputValues()
+            document.querySelectorAll('.list .proper').forEach(function(elem) {
+              elem.className = 'proper'
+            })
 
-          document.querySelector('#ID_' + entity.id).className = 'proper active'
+            document.querySelector('#ID_' + entity.id).className = 'proper active'
           }
         })
       }
@@ -496,7 +500,7 @@ document.querySelector('[data-tool="update"]').onclick = function() {
   }
 }
 
-document.querySelector('[data-tool="paste"]').onclick = function() {
+document.querySelector('[data-tool="export"]').onclick = function() {
   if (selection.length != 0) {
     editorBox.data.render = false
     widthEditorBox.data.render = false
