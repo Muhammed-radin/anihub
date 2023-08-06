@@ -204,3 +204,7 @@ input:hover {
 .api-proper span {
   color: #35AC5B;
 }
+
+textarea {
+  font-size: 12px 
+}
