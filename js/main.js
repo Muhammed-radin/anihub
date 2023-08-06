@@ -19,8 +19,9 @@ var touchstart = ''
 var touchend = ''
 var rootList = document.querySelector('.list')
 
-function inProgress(title, progress, body = '') {
+function inProgress(title, progress, body = '',  isHide = false) {
   document.querySelector('.progress').style.display = 'block'
+  document.querySelector('.progress progress').style.display = isHide ? 'none' : 'block'
   document.querySelector('.progress').value = progress
   document.querySelector('.pr-title').innerHTML = title
   document.querySelector('.pr-body').innerHTML = body
@@ -508,6 +509,36 @@ document.querySelector('[data-tool="update"]').onclick = function() {
     editEntity(selection[0])
     uiUpdate()
     update()
+  }
+}
+
+var apiData = []
+
+class ApiUrlData {
+  constructor(url){
+    this.url = url
+  }
+  headerKeys = []
+  headerValues = []
+}
+
+document.getElementById('apiCBtn').onclick = function (){
+  var tempApi = new ApiUrlData(document.getElementById('apiUrl').value)
+  inProgress('Add Headers', 5, `
+  <textarea id="apiJson">{\n}</textarea>
+  <br/>
+  <button id="jsonSumbtor">Submit</button>
+  `, true)
+  
+  if (document.getElementById('jsonSumbtor')) {
+    document.getElementById('jsonSumbtor').onclick = function (){
+      outProgress()
+      var value = document.getElementById('apiJson').value
+      var json = JSON.parse(value)
+      tempApi.headerKeys = Object.keys(json)
+      tempApi.headerValues = Object.values(json)
+      apiData.push(tempApi)
+    }
   }
 }
 

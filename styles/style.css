@@ -250,3 +250,25 @@ textarea {
   font-size: 14px
 }
 
+.progress textarea {
+  width: 80%;
+  min-height: 10vh
+}
+
+textarea {
+  border: 1px solid #3E99D8;
+  outline: none;
+  border-radius: 0;
+  background: #222;
+  color: #fff;
+  padding: 3px;
+  font-family: monospace;
+}
+
+button {
+  outline: none;
+  background: #444;
+  color: #fff;
+  font-size: 13px !important;
+  padding: 5px 20px !important;
+}
