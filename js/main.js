@@ -545,7 +545,7 @@ document.getElementById('apiCBtn').onclick = function() {
       tempApi.headerKeys = Object.keys(json)
       tempApi.headerValues = Object.values(json)
       apiData.push(tempApi)
-      document.querySelector('.api-box').innerHTML += `<div class="api-proper"><span>GET</span>${tempApi.url}</div>`
+      document.querySelector('.api-box').innerHTML += `<div class="api-proper"><span>GET</span> ${tempApi.url}</div>`
     }
   }
 }
@@ -598,9 +598,12 @@ document.querySelector('[data-tool="export"]').onclick = function() {
                         var startPoint = value.indexOf('${')
                         var endPoint = value.indexOf('}')
                         var middlePoint = value.slice(0, startPoint) + value.slice(startPoint + 2, endPoint) + value.slice(endPoint + 1, value.length)
-                        entity[key] = api[0][middlePoint]
-                        alert(api[0][middlePoint] + ' K: ' + key)
+                        if (api[0][middlePoint]) {
+                          entity[key] = api[0][middlePoint]
+                        }
+                        //alert(api[0][middlePoint] + ' K: ' + key)
                         changeInputValues()
+                        uiUpdate()
                         inProgress('Setting Up', 90, 'image exporting to Image Inspect Tool')
                         setTimeout(function() {
                           exportImage()
@@ -610,8 +613,12 @@ document.querySelector('[data-tool="export"]').onclick = function() {
                         var startPoint = value.indexOf('${')
                         var endPoint = value.indexOf('}')
                         var middlePoint = value.slice(0, startPoint) + value.slice(startPoint + 2, endPoint) + value.slice(endPoint + 1, value.length)
-                        entity[key] = api[middlePoint]
+                        if (api[middlePoint]) {
+                          entity[key] = api[middlePoint]
+                        }
                         inProgress('Setting Up', 90, 'image exporting to Image Inspect Tool')
+                        changeInputValues()
+                        uiUpdate()
                         setTimeout(function() {
                           exportImage()
                           outProgress()
