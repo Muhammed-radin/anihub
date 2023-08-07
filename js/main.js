@@ -19,16 +19,16 @@ var touchstart = ''
 var touchend = ''
 var rootList = document.querySelector('.list')
 
-function inProgress(title, progress, body = '',  isHide = false) {
+function inProgress(title, progress, body = '', isHide = false) {
   document.querySelector('.progress').style.display = 'block'
   document.querySelector('.progress progress').style.display = isHide ? 'none' : 'block'
-  document.querySelector('.progress').value = progress
+  document.querySelector('.progress progress').value = progress
   document.querySelector('.pr-title').innerHTML = title
   document.querySelector('.pr-body').innerHTML = body
 }
 
-function outProgress(){
-    document.querySelector('.progress').style.display = 'none'
+function outProgress() {
+  document.querySelector('.progress').style.display = 'none'
 }
 
 var editorBox = new entity({
@@ -512,35 +512,45 @@ document.querySelector('[data-tool="update"]').onclick = function() {
   }
 }
 
-var apiData = []
-
 class ApiUrlData {
-  constructor(url){
+  constructor(url, headerKeys = [], headerValues = []) {
     this.url = url
+    this.headerKeys = headerKeys
+    this.headerValues = headerValues
   }
-  headerKeys = []
-  headerValues = []
 }
 
-document.getElementById('apiCBtn').onclick = function (){
+var apiData = [new ApiUrlData('https://d74edits-fce6.restdb.io/rest/videos', [
+  'x-apikey',
+  'content-type'
+  ], [
+    '64a3b47b86d8c5956ded8f77',
+    'application/json'
+    ])]
+
+
+document.getElementById('apiCBtn').onclick = function() {
   var tempApi = new ApiUrlData(document.getElementById('apiUrl').value)
   inProgress('Add Headers', 5, `
   <textarea id="apiJson">{\n}</textarea>
   <br/>
   <button id="jsonSumbtor">Submit</button>
   `, true)
-  
+
   if (document.getElementById('jsonSumbtor')) {
-    document.getElementById('jsonSumbtor').onclick = function (){
+    document.getElementById('jsonSumbtor').onclick = function() {
       outProgress()
       var value = document.getElementById('apiJson').value
       var json = JSON.parse(value)
       tempApi.headerKeys = Object.keys(json)
       tempApi.headerValues = Object.values(json)
       apiData.push(tempApi)
+      document.querySelector('.api-box').innerHTML += `<div class="api-proper"><span>GET</span>${tempApi.url}</div>`
     }
   }
 }
+
+var apiReqData = []
 
 document.querySelector('[data-tool="export"]').onclick = function() {
   if (selection.length != 0) {
@@ -550,6 +560,62 @@ document.querySelector('[data-tool="export"]').onclick = function() {
     rotaterBox.data.render = false
     point.data.render = false
 
+    if (apiData.length != 0) {
+      inProgress('Fetching Api', 10, 'Fetching all api requests. please wait')
+      var progressUnit = 0
+      apiData.forEach(function(data, i) {
+        var xhr = new XMLHttpRequest()
+        xhr.withCredentials = false;
+        xhr.open('GET', data.url)
+        data.headerKeys.forEach(function(key, index) {
+          xhr.setRequestHeader(key, data.headerValues[index])
+        })
+        xhr.addEventListener('readystatechange', function() {
+          if (xhr.readyState == xhr.DONE) {
+            apiReqData.push(JSON.parse(xhr.response))
+            progressUnit += (40 / apiData.length)
+            inProgress('Exporting Image', 10 + progressUnit, 'Exporting image please wait (1500x1000). please wait')
+            if (progressUnit >= 40) {
+              canvas.entityStore.forEach(function(entity) {
+                Object.keys(entity).forEach(function(key) {
+                  var value = (typeof entity[key] == 'string' ? entity[key] : '')
+                  if (value.includes('$') && value.includes('{') && value.includes('}')) {
+                    apiReqData.forEach(function(api) {
+                      if (api instanceof Array) {
+                        api.forEach(function(apiData) {
+                          var startPoint = value.indexOf('${')
+                          var endPoint = value.indexOf('}')
+                          var middlePoint = value.slice(0, startPoint) + value.slice(startPoint + 2, endPoint) + value.slice(endPoint + 1, value.length)
+                          entity[key] = apiData[middlePoint]
+                        })
+                      } else {
+                        var startPoint = value.indexOf('${')
+                        var endPoint = value.indexOf('}')
+                        var middlePoint = value.slice(0, startPoint) + value.slice(startPoint + 2, endPoint) + value.slice(endPoint + 1, value.length)
+                        entity[key] = apiData[middlePoint]
+                      }
+                      
+                      outProgress()
+                    })
+                  }
+                })
+              })
+
+              var url = (elem.toDataURL('image/png'))
+              document.getElementById('inspectImg').src = url
+
+
+              editorBox.data.render = true
+              point.data.render = false
+              widthEditorBox.data.render = true
+              heightEditorBox.data.render = true
+              rotaterBox.data.render = true
+            }
+          }
+        })
+        xhr.send(null)
+      })
+    }
 
     setTimeout(function() {
       var url = (elem.toDataURL('image/png'))
