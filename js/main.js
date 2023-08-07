@@ -552,7 +552,20 @@ document.getElementById('apiCBtn').onclick = function() {
 
 var apiReqData = []
 
+
+
 document.querySelector('[data-tool="export"]').onclick = function() {
+  function exportImage() {
+    var url = (elem.toDataURL('image/png'))
+    document.getElementById('inspectImg').src = url
+
+    editorBox.data.render = true
+    point.data.render = false
+    widthEditorBox.data.render = true
+    heightEditorBox.data.render = true
+    rotaterBox.data.render = true
+  }
+
   if (selection.length != 0) {
     editorBox.data.render = false
     widthEditorBox.data.render = false
@@ -582,51 +595,42 @@ document.querySelector('[data-tool="export"]').onclick = function() {
                   if (value.includes('$') && value.includes('{') && value.includes('}')) {
                     apiReqData.forEach(function(api) {
                       if (api instanceof Array) {
-                        api.forEach(function(apiData) {
-                          var startPoint = value.indexOf('${')
-                          var endPoint = value.indexOf('}')
-                          var middlePoint = value.slice(0, startPoint) + value.slice(startPoint + 2, endPoint) + value.slice(endPoint + 1, value.length)
-                          entity[key] = apiData[middlePoint]
-                        })
+                        var startPoint = value.indexOf('${')
+                        var endPoint = value.indexOf('}')
+                        var middlePoint = value.slice(0, startPoint) + value.slice(startPoint + 2, endPoint) + value.slice(endPoint + 1, value.length)
+                        entity[key] = api[0][middlePoint]
+                        alert(api[0][middlePoint] + ' K: ' + key)
+                        changeInputValues()
+                        inProgress('Setting Up', 90, 'image exporting to Image Inspect Tool')
+                        setTimeout(function() {
+                          exportImage()
+                          outProgress()
+                        }, 300)
                       } else {
                         var startPoint = value.indexOf('${')
                         var endPoint = value.indexOf('}')
                         var middlePoint = value.slice(0, startPoint) + value.slice(startPoint + 2, endPoint) + value.slice(endPoint + 1, value.length)
-                        entity[key] = apiData[middlePoint]
+                        entity[key] = api[middlePoint]
+                        inProgress('Setting Up', 90, 'image exporting to Image Inspect Tool')
+                        setTimeout(function() {
+                          exportImage()
+                          outProgress()
+                        }, 300)
                       }
-                      
-                      outProgress()
                     })
                   }
                 })
               })
-
-              var url = (elem.toDataURL('image/png'))
-              document.getElementById('inspectImg').src = url
-
-
-              editorBox.data.render = true
-              point.data.render = false
-              widthEditorBox.data.render = true
-              heightEditorBox.data.render = true
-              rotaterBox.data.render = true
             }
           }
         })
         xhr.send(null)
       })
     }
+  } else {
 
     setTimeout(function() {
-      var url = (elem.toDataURL('image/png'))
-      document.getElementById('inspectImg').src = url
-
-
-      editorBox.data.render = true
-      point.data.render = false
-      widthEditorBox.data.render = true
-      heightEditorBox.data.render = true
-      rotaterBox.data.render = true
+      exportImage()
     }, 500)
   }
 }
