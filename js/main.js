@@ -510,6 +510,8 @@ document.querySelector('[data-tool="update"]').onclick = function() {
     uiUpdate()
     update()
   }
+  
+  window.location.reload()
 }
 
 class ApiUrlData {
