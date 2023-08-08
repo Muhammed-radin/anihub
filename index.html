@@ -93,13 +93,21 @@
     <div class="option-title" data-toggle="1" data-pair="toolpart_general"><ion-icon name="chevron-down-outline"></ion-icon> General Edit</div>
     <div class="toolpart_general" data-part="general">
       <div class="edit-proper">
+        <div class="local-text">Type: </div><select name="shape" class="for_entity_update" id="type">
+          <option value="roundRect">Rectangle</option>
+          <option value="ellipse">Circle</option>
+          <option value="image">Image</option>
+          <option value="path">Path</option>
+        </select>
+      </div>
+      <div class="edit-proper">
         <div class="local-text">Name: </div><input class="for_entity_update" type="text" id="name">
       </div>
       <div class="edit-proper">
         <div class="local-text">Enabled: </div><input class="for_entity_update" type="checkbox" id="render">
       </div>
       <div class="edit-proper">
-        <div class="local-text">Layer: </div><input class="for_entity_update" type="number" id="z">
+        <div class="local-text">Render Index: </div><input class="for_entity_update" type="number" id="z">
       </div>
       <div class="edit-proper">
         <div class="local-text">Top: </div><input class="for_entity_update" type="number" id="y">
@@ -152,7 +160,10 @@
         <div class="local-text">Shadow Left: </div><input class="for_entity_update" type="number" id="shadowX">
       </div>
       <div class="edit-proper">
-        <div class="local-text">Path: </div><textarea class="for_entity_update" type="text" id="path" ></textarea>
+        <div class="local-text">Image Url: </div><input class="for_entity_update" type="text" id="imageURl">
+      </div>
+      <div class="edit-proper">
+        <div class="local-text">Path: </div><textarea class="for_entity_update" type="text" id="path"></textarea>
       </div>
     </div>
     <div class="option-title" data-toggle="0" data-pair="inspectImg_tool"><ion-icon name="chevron-down-outline"></ion-icon> Image Inspect </div>
@@ -178,8 +189,8 @@
 
   <div class="progress">
     <div class="pr-title">Installing...</div>
-   <div class="pr-body">please wait updating all files</div>
-   <progress max="100" value="10"></progress>
+    <div class="pr-body">please wait updating all files</div>
+    <progress max="100" value="10"></progress>
   </div>
 
   <!-- Project -->
