@@ -537,7 +537,7 @@ function Mango() {
       this.data = tempData;
     },
     id: function() {
-      var id = Math.floor(Math.random() * 99999);
+      var id = Math.floor(Math.random() * 9999999999999999);
       canvas.idStorage.push(id);
       return id;
     },

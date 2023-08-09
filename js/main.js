@@ -510,7 +510,7 @@ document.querySelector('[data-tool="update"]').onclick = function() {
     uiUpdate()
     update()
   }
-  
+
   window.location.reload()
 }
 
@@ -522,32 +522,37 @@ class ApiUrlData {
   }
 }
 
-var apiData = [new ApiUrlData('https://d74edits-fce6.restdb.io/rest/videos', [
-  'x-apikey',
-  'content-type'
-  ], [
-    '64a3b47b86d8c5956ded8f77',
-    'application/json'
-    ])]
+var apiData = []
 
 
 document.getElementById('apiCBtn').onclick = function() {
-  var tempApi = new ApiUrlData(document.getElementById('apiUrl').value)
-  inProgress('Add Headers', 5, `
+  if (document.getElementById('apiUrl').value == 'D74') {
+    apiData.push(new ApiUrlData('https://d74edits-fce6.restdb.io/rest/videos', [
+        'x-apikey',
+        'content-type'
+        ], [
+          '64a3b47b86d8c5956ded8f77',
+          'application/json'
+          ]))
+    document.querySelector('.api-box').innerHTML += `<div class="api-proper"><span>GET</span> D74 Edits Server </div>`
+  } else {
+    var tempApi = new ApiUrlData(document.getElementById('apiUrl').value)
+    inProgress('Add Headers', 5, `
   <textarea id="apiJson">{\n}</textarea>
   <br/>
   <button id="jsonSumbtor">Submit</button>
   `, true)
 
-  if (document.getElementById('jsonSumbtor')) {
-    document.getElementById('jsonSumbtor').onclick = function() {
-      outProgress()
-      var value = document.getElementById('apiJson').value
-      var json = JSON.parse(value)
-      tempApi.headerKeys = Object.keys(json)
-      tempApi.headerValues = Object.values(json)
-      apiData.push(tempApi)
-      document.querySelector('.api-box').innerHTML += `<div class="api-proper"><span>GET</span> ${tempApi.url}</div>`
+    if (document.getElementById('jsonSumbtor')) {
+      document.getElementById('jsonSumbtor').onclick = function() {
+        outProgress()
+        var value = document.getElementById('apiJson').value
+        var json = JSON.parse(value)
+        tempApi.headerKeys = Object.keys(json)
+        tempApi.headerValues = Object.values(json)
+        apiData.push(tempApi)
+        document.querySelector('.api-box').innerHTML += `<div class="api-proper"><span>GET</span> ${tempApi.url}</div>`
+      }
     }
   }
 }
