@@ -10,16 +10,76 @@ body {
   user-select: none
 }
 
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #222;
+  color: #fff;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding: 5px;
+  z-index: 99;
+  border: 1px solid #414141
+}
+
+.dropbar {
+  padding: 1px 5px;
+  padding-right: 10px;
+  font-size: 12px
+}
+
+.dropbar:hover {
+  border: 1px solid #ccc;
+  color: #ccc;
+}
+
+.dropbar:hover .dropcontent {
+  display: flex;
+}
+
+.dropcontent {
+  position: absolute;
+  min-width: 150px;
+  padding: 5px;
+  background: #333;
+  display: none;
+  color: #fff;
+  font-size: 12px;
+  flex-direction: column;
+}
+
+.dropcontent p {
+  margin: 0;
+  padding: 5px;
+  padding-right: 15px;
+  position: relative;
+}
+
+.dropcontent p:hover {
+  color: #46A9D0;
+}
+
+.dropcontent span {
+  position: absolute;
+  right: 5px;
+  font-size: 9.8px;
+  color: #45B443;
+  padding: 1px;
+}
+
+
 .left-box {
   background: #222;
   border: 1px solid #656565;
   min-width: max-content;
-  height: 99.6vh;
+  height: calc(99.6vh - 28px);
   position: fixed;
   display: flex;
   flex-direction: row;
-  top: 0;
-  left: 0;
+  top: 28px;
+  left: 0px;
   z-index: 9;
 }
 
@@ -30,7 +90,9 @@ body {
 }
 
 .tools ion-icon {
-  font-size: 23px;
+  font-size: 20px;
+  min-width: 24px;
+  min-height: 24px;
   padding: 5px;
 }
 
@@ -121,7 +183,7 @@ canvas {
   position: fixed;
   display: flex;
   flex-direction: column;
-  top: 0;
+  top: 28px;
   right: 0;
   z-index: 9;
   overflow: scroll
@@ -194,7 +256,8 @@ input:hover {
 }
 
 .api-box {
-  display: flex;flex-direction:column;
+  display: flex;
+  flex-direction: column;
 }
 
 .api-proper {
@@ -206,7 +269,7 @@ input:hover {
 }
 
 textarea {
-  font-size: 12px 
+  font-size: 12px
 }
 
 .progress {
@@ -214,12 +277,12 @@ textarea {
   top: 50%;
   display: none;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   background: #222;
   padding: 20px;
   z-index: 9999999;
   width: 60%;
-   box-shadow: 0 0 50px 4000px #33333390;
+  box-shadow: 0 0 50px 4000px #33333390;
 }
 
 .progress * {
@@ -240,7 +303,9 @@ textarea {
   appearance: none;
 }
 
-::-webkit-progress-value, ::-webkit-progress-inner-value, ::-webkit-progress-inner-element {
+::-webkit-progress-value,
+::-webkit-progress-inner-value,
+::-webkit-progress-inner-element {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;

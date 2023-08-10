@@ -232,7 +232,7 @@ checkSelections()
 
 
 function hErr(e) {
-  alert(e)
+  //alert(e)
 }
 
 window.onerror = hErr
