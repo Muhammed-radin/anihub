@@ -59,8 +59,8 @@ var heightEditorBox = new entity({
 })
 
 var rotaterBox = new entity({
-  width: 20,
-  height: 20,
+  width: 10,
+  height: 10,
   x: -100,
   y: -100,
   fill: '#557BB4',
@@ -228,6 +228,8 @@ function checkSelections() {
 
 }
 
+function getWidth(){}
+
 checkSelections()
 
 
@@ -249,12 +251,15 @@ function changeInputValues() {
 
 function update() {
   checkSelections()
+  
 
   canvas.entityStore.forEach(function(entity) {
     if (entity.initedClick == undefined) {
+      entity.initedClick = true
       entity.scale = { x: graphical.scale, y: graphical.scale }
       if (entity.isHidden == undefined && entity.name != undefined) {
-        entity.on('click', function(e) {
+        // overload 
+        /*entity.on('click', function(e) {
           if (activeTool == 'edit') {
             selection = [entity]
             editEntity(entity)
@@ -265,7 +270,7 @@ function update() {
 
             document.querySelector('#ID_' + entity.id).className = 'proper active'
           }
-        })
+        })*/
       }
     }
   })
@@ -279,7 +284,18 @@ function uiUpdate() {
   canvas.entityStore.forEach(function(select) {
     if (select.isHidden == undefined && select.name != undefined) {
 
-      var elemName = (select.name == 'NOT_NAME_SETTELD' ? (select.type == 'roundRect' ? 'rect' : select.type) + '_' + select.id : select.name)
+      var elemName = select.title 
+      
+      if (elemName == undefined) {
+        elemName = select.name
+      }
+      
+      if (elemName == 'NOT_NAME_SETTELD') {
+        elemName = select.type == 'roundRect' ? 'rect':select.type
+      } 
+      
+      elemName = elemName + '_'+ select.id 
+      
       var icon = 'shapes'
       icon = (select.render == false ? 'remove' : 'shapes')
 
@@ -355,7 +371,7 @@ function editMove(e, type = 'move') {
       changeInputValues()
       break;
     case 'rotate':
-
+      var x = (x - (elem.offsetLeft - (elem.offsetWidth / 2)))
       break;
   }
 
@@ -382,7 +398,8 @@ function move(e) {
         shape = document.getElementById('shape').value
       }
 
-      if (shape == 'rect') {
+      // width & height adjuster [custom]
+      /*if (shape == 'rect') {
         selection[0].width = Math.abs(x - elem.offsetLeft)
         selection[0].height = Math.abs(y - elem.offsetTop)
       } else if (shape == 'ellipse') {
@@ -391,7 +408,7 @@ function move(e) {
       } else if (shape == 'circle') {
         selection[0].width = Math.abs((x - elem.offsetLeft) / 2)
         selection[0].height = Math.abs((x - elem.offsetLeft) / 2)
-      }
+      }*/
       break;
     case 'edit':
       /*selection[0].x = (x - (elem.offsetLeft - (elem.offsetWidth / 2))) - (selection[0].width / 2)
@@ -426,13 +443,37 @@ function onstart(e) {
       }
 
       if (shape == 'rect') {
-        selection = [new entity({ type: 'roundRect', x: (x - (elem.offsetLeft - (elem.offsetWidth / 2))), y: (y - (elem.offsetTop - (elem.offsetHeight / 2))) }).data]
+        selection = [new entity({
+          type: 'path',
+          title: 'Rect',
+          x: (x - (elem.offsetLeft - (elem.offsetWidth / 2))),
+          y: (y - (elem.offsetTop - (elem.offsetHeight / 2))),
+          width: 50,
+          height: 50,
+          applyCommand: 'PATH.rect(E.x, E.y, E.width, E.height)'
+        }).data]
         uiUpdate()
       } else if (shape == 'ellipse') {
-        selection = [new entity({ type: 'ellipse', arcLevel: 3, x: Math.abs((x - (elem.offsetLeft - (elem.offsetWidth / 2)))), y: Math.abs((y - (elem.offsetTop - (elem.offsetHeight / 2)))) }).data]
+        selection = [new entity({
+          type: 'ellipse',
+          title: 'Ellipse',
+          arcLevel: 3,
+          x: Math.abs((x - (elem.offsetLeft - (elem.offsetWidth / 2)))),
+          y: Math.abs((y - (elem.offsetTop - (elem.offsetHeight / 2)))),
+          width: 50,
+          height: 50
+        }).data]
         uiUpdate()
       } else if (shape == 'circle') {
-        selection = [new entity({ type: 'ellipse', arcLevel: 3, x: Math.abs((x - (elem.offsetLeft - (elem.offsetWidth / 2)))), y: Math.abs((y - (elem.offsetTop - (elem.offsetHeight / 2)))) }).data]
+        selection = [new entity({
+          type: 'ellipse',
+          title: 'Ellipse',
+          arcLevel: 3,
+          x: Math.abs((x - (elem.offsetLeft - (elem.offsetWidth / 2)))),
+          y: Math.abs((y - (elem.offsetTop - (elem.offsetHeight / 2)))),
+          width: 50,
+          height: 50
+        }).data]
         uiUpdate()
       }
       break;
