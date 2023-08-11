@@ -24,7 +24,7 @@ function Mango() {
     },
     idStorage: [],
     version: 1.0,
-    dev_version: "1.9.30",
+    dev_version: "1.9.32",
     setPixels: function(w, h) {
       this.isCanvasFilled = false
       this.canvasElem.width = w;
@@ -627,6 +627,7 @@ function Mango() {
         vx: 0,
         vy: 0,
       };
+      this.martixScaleXY = 0;
       this.tags = [];
       this.imageSizeAuto = false;
       this.on = function(type, callback) {
@@ -646,12 +647,14 @@ function Mango() {
             width: this.width,
           }
         })
+        
+        var self = this;
 
         canvas.canvasElem.addEventListener(type, function(e) {
           var y = e.clientY;
           var x = e.clientX;
-          x = (x - (elem.offsetLeft - (elem.offsetWidth / 2)))
-          y = (y - (elem.offsetTop - (elem.offsetHeight / 2)))
+          x = (x - (elem.offsetLeft - (elem.offsetWidth / 2)) )
+          y = (y - (elem.offsetTop - (elem.offsetHeight / 2)) )
 
           switch (type) {
             case 'mousemove':

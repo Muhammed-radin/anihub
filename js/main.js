@@ -88,8 +88,14 @@ tools.forEach(function(elem) {
 
     if (activeTool != 'edit') {
       editorBox.data.render = false
+      widthEditorBox.data.render = false
+      heightEditorBox.data.render = false
+      rotaterBox.data.render = false
     } else {
       editorBox.data.render = true
+      widthEditorBox.data.render = true
+      heightEditorBox.data.render = true
+      rotaterBox.data.render = true
     }
   }
 })
@@ -228,7 +234,7 @@ function checkSelections() {
 
 }
 
-function getWidth(){}
+function getWidth() {}
 
 checkSelections()
 
@@ -251,7 +257,7 @@ function changeInputValues() {
 
 function update() {
   checkSelections()
-  
+
 
   canvas.entityStore.forEach(function(entity) {
     if (entity.initedClick == undefined) {
@@ -284,18 +290,19 @@ function uiUpdate() {
   canvas.entityStore.forEach(function(select) {
     if (select.isHidden == undefined && select.name != undefined) {
 
-      var elemName = select.title 
-      
-      if (elemName == undefined) {
+      var elemName = select.name
+
+      if (elemName == 'NOT_NAME_SETTELD') {
+        elemName = select.title
+        if (elemName == undefined) {
+          elemName = select.name
+        }
+        elemName = select.type == 'roundRect' ? 'rect' : select.type
+        elemName = elemName + '_' + select.id
+      } else {
         elemName = select.name
       }
-      
-      if (elemName == 'NOT_NAME_SETTELD') {
-        elemName = select.type == 'roundRect' ? 'rect':select.type
-      } 
-      
-      elemName = elemName + '_'+ select.id 
-      
+
       var icon = 'shapes'
       icon = (select.render == false ? 'remove' : 'shapes')
 
@@ -379,7 +386,10 @@ function editMove(e, type = 'move') {
   changeInputValues()
 }
 
+var canvasScale = 0
+
 function move(e) {
+  var orgE = e
   if (e.changedTouches != undefined) {
     e = e.changedTouches[0]
   }
@@ -420,6 +430,20 @@ function move(e) {
       //alert(x+' '+ elem.offsetLeft+' '+(x-elem.offsetLeft))
       selection[0].path += ' L' + (x - (elem.offsetLeft - (elem.offsetWidth / 2))) + ' ' + (y - (elem.offsetTop - (elem.offsetHeight / 2)))
       break;
+    case 'move':
+
+      if (orgE.changedTouches != undefined) {
+        if (orgE.changedTouches.length == 2) {
+          var value = Math.abs(orgE.changedTouches[1].clientX - e.clientX)
+          var scale = value / 100
+          canvasScale = value
+          elem.style.transform = 'translate(-50%,-50%) scale('+ scale +')'
+        } else if (orgE.changedTouches.length == 1) {
+          elem.style.left = x + 'px'
+          elem.style.top = y + 'px'
+        }
+      }
+      break;
   }
 }
 
@@ -444,13 +468,12 @@ function onstart(e) {
 
       if (shape == 'rect') {
         selection = [new entity({
-          type: 'path',
+          type: 'roundRect',
           title: 'Rect',
           x: (x - (elem.offsetLeft - (elem.offsetWidth / 2))),
           y: (y - (elem.offsetTop - (elem.offsetHeight / 2))),
           width: 50,
           height: 50,
-          applyCommand: 'PATH.rect(E.x, E.y, E.width, E.height)'
         }).data]
         uiUpdate()
       } else if (shape == 'ellipse') {
@@ -524,24 +547,29 @@ elem.addEventListener('touchend', onend)
 elem.addEventListener('mouseup', onend)
 
 function fullScreen(element) {
-  if (element.requestFullscreen) {
-    element.requestFullscreen();
-  } else if (element.webkitRequestFullscreen) {
-    /* Safari */
-    element.webkitRequestFullscreen();
-  } else if (element.msRequestFullscreen) {
-    /* IE11 */
-    element.msRequestFullscreen();
-  }
+  try {
 
-  window.screen.orientation.lock("landscape").then(function() {
-    console.log('done');
-  }).catch(function(error) {
-    console.warn(error)
-  });
+    if (element.requestFullscreen) {
+      element.requestFullscreen();
+    } else if (element.webkitRequestFullscreen) {
+      /* Safari */
+      element.webkitRequestFullscreen();
+    } else if (element.msRequestFullscreen) {
+      /* IE11 */
+      element.msRequestFullscreen();
+    }
+
+    window.screen.orientation.lock("landscape").then(function() {
+      console.log('done');
+    }).catch(function(error) {
+      console.warn(error)
+    });
+  } catch (e) {
+    console.error('Err[App]' + e)
+  }
 }
 
-document.querySelector('[data-tool="move"]').onclick = function() {
+document.querySelector('[data-tool="full"]').onclick = function() {
   fullScreen(document.querySelector('html'))
 }
 
@@ -710,7 +738,8 @@ let graphical = {
 
 setInterval(function() {
   canvas.entityStore.forEach(function(entity) {
-    entity.scale = { x: graphical.scale, y: graphical.scale }
+    entity.martixScaleXY = canvasScale
+    entity.scale = { x: graphical.scale + canvasScale, y: graphical.scale + canvasScale }
   })
 }, 100)
 

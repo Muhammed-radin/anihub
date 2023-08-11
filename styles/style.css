@@ -201,6 +201,10 @@ canvas {
   overflow: scroll;
 }
 
+.hide-icn {
+  display: none
+}
+
 .edit-proper {
   margin: 4px;
   display: flex;
