@@ -386,7 +386,8 @@ function editMove(e, type = 'move') {
   changeInputValues()
 }
 
-var canvasScale = 0
+var zoomable = false
+
 
 function move(e) {
   var orgE = e
@@ -433,12 +434,12 @@ function move(e) {
     case 'move':
 
       if (orgE.changedTouches != undefined) {
-        if (orgE.changedTouches.length == 2) {
-          var value = Math.abs(orgE.changedTouches[1].clientX - e.clientX)
-          var scale = value / 100
-          canvasScale = value
-          elem.style.transform = 'translate(-50%,-50%) scale('+ scale +')'
-        } else if (orgE.changedTouches.length == 1) {
+          if (orgE.changedTouches.length == 2) {
+            /*var value = Math.abs(orgE.changedTouches[1].clientX - e.clientX)
+            var scale = value / 100
+            graphical.scale = scale
+            elem.style.transform = 'translate(-50%,-50%) scale('+scale+')'*/
+          } else {
           elem.style.left = x + 'px'
           elem.style.top = y + 'px'
         }
@@ -516,6 +517,8 @@ function onstart(e) {
       }).data]
       uiUpdate()
       update()
+      break;
+    case 'move':
       break;
   }
 }
@@ -738,8 +741,7 @@ let graphical = {
 
 setInterval(function() {
   canvas.entityStore.forEach(function(entity) {
-    entity.martixScaleXY = canvasScale
-    entity.scale = { x: graphical.scale + canvasScale, y: graphical.scale + canvasScale }
+    entity.scale = { x: graphical.scale, y: graphical.scale }
   })
 }, 100)
 

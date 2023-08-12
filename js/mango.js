@@ -627,7 +627,6 @@ function Mango() {
         vx: 0,
         vy: 0,
       };
-      this.martixScaleXY = 0;
       this.tags = [];
       this.imageSizeAuto = false;
       this.on = function(type, callback) {
@@ -647,14 +646,14 @@ function Mango() {
             width: this.width,
           }
         })
-        
+
         var self = this;
 
         canvas.canvasElem.addEventListener(type, function(e) {
           var y = e.clientY;
           var x = e.clientX;
-          x = (x - (elem.offsetLeft - (elem.offsetWidth / 2)) )
-          y = (y - (elem.offsetTop - (elem.offsetHeight / 2)) )
+          x = (x - (elem.offsetLeft - (elem.offsetWidth / 2)))
+          y = (y - (elem.offsetTop - (elem.offsetHeight / 2)))
 
           switch (type) {
             case 'mousemove':
@@ -1113,18 +1112,18 @@ function Mango() {
       var global = this.global;
       window.requestAnimationFrame(function() {
         //var render = function() {
-          if (canvas.app.update instanceof Function) {
-            canvas.app.update();
-          } else {
-            console.warn("set function in update");
-          }
-          canvas.clear();
-          canvas.render();
-          if (canvas.app.onupdate instanceof Function) {
-            canvas.app.onupdate();
-          } else {
-            console.warn("set function in onupdate");
-          }
+        if (canvas.app.update instanceof Function) {
+          canvas.app.update();
+        } else {
+          console.warn("set function in update");
+        }
+        canvas.clear();
+        canvas.render();
+        if (canvas.app.onupdate instanceof Function) {
+          canvas.app.onupdate();
+        } else {
+          console.warn("set function in onupdate");
+        }
         //}
         global.time += 1;
         global.nowTime = Date.now()
