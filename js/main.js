@@ -11,6 +11,9 @@ var app = canvas.app
 
 canvas.setPixels(300, 200)
 
+var canvasMartix = canvas.getCanvasTranslateXY(elem)
+
+
 var cTools = document.querySelectorAll('.c-tool')
 var tools = document.querySelectorAll('.tool')
 var activeTool = 'move'
@@ -480,7 +483,7 @@ function onstart(e) {
       } else if (shape == 'ellipse') {
         selection = [new entity({
           type: 'ellipse',
-          title: 'Ellipse',
+          title: 'Oval',
           arcLevel: 3,
           x: Math.abs((x - (elem.offsetLeft - (elem.offsetWidth / 2)))),
           y: Math.abs((y - (elem.offsetTop - (elem.offsetHeight / 2)))),

@@ -24,7 +24,7 @@ function Mango() {
     },
     idStorage: [],
     version: 1.0,
-    dev_version: "1.9.32",
+    dev_version: "1.9.34",
     setPixels: function(w, h) {
       this.isCanvasFilled = false
       this.canvasElem.width = w;
@@ -524,6 +524,15 @@ function Mango() {
         }
       });
     },
+    getCanvasTranslateXY(element) {
+      var style = window.getComputedStyle(element);
+      var matrix = new WebKitCSSMatrix(style.transform);
+
+      return {
+        x: matrix.e,
+        y: matrix.f
+      }
+    },
     entity: function(data) {
       var tempData = new canvas._newDataModule();
       var dataKey = Object.keys(data);
@@ -638,6 +647,7 @@ function Mango() {
           width: this.width,
         }
 
+
         setInterval(() => {
           element = {
             top: this.y,
@@ -650,10 +660,14 @@ function Mango() {
         var self = this;
 
         canvas.canvasElem.addEventListener(type, function(e) {
+          var martix = canvas.getCanvasTranslateXY(elem);
+          martix.x = Math.abs(martix.x);
+          martix.y = Math.abs(martix.y);
           var y = e.clientY;
           var x = e.clientX;
-          x = (x - (elem.offsetLeft - (elem.offsetWidth / 2)))
-          y = (y - (elem.offsetTop - (elem.offsetHeight / 2)))
+
+          x = (x - (elem.offsetLeft - (martix.x)))
+          y = (y - (elem.offsetTop - (martix.y)))
 
           switch (type) {
             case 'mousemove':
@@ -670,8 +684,8 @@ function Mango() {
               e = e.changedTouches[0];
               var y = e.clientY;
               var x = e.clientX;
-              x = (x - (elem.offsetLeft - (elem.offsetWidth / 2)))
-              y = (y - (elem.offsetTop - (elem.offsetHeight / 2)))
+              x = (x - (elem.offsetLeft - (martix.x)))
+              y = (y - (elem.offsetTop - (martix.y)))
               if (y > element.top && y < element.top + element.height && x > element.left && x < element.left + element.width) {
                 callback(e1)
               }
@@ -681,8 +695,8 @@ function Mango() {
               e = e.touches[0]
               var y = e.clientY;
               var x = e.clientX;
-              x = (x - (elem.offsetLeft - (elem.offsetWidth / 2)))
-              y = (y - (elem.offsetTop - (elem.offsetHeight / 2)))
+              x = (x - (elem.offsetLeft - (martix.x)))
+              y = (y - (elem.offsetTop - (martix.y)))
 
               if (y > element.top && y < element.top + element.height && x > element.left && x < element.left + element.width) {
                 callback(e)
@@ -699,6 +713,7 @@ function Mango() {
           width: this.width,
         }
 
+
         setInterval(() => {
           element = {
             top: this.y,
@@ -709,10 +724,13 @@ function Mango() {
         })
 
         canvas.canvasElem.removeEventListener(type, function(e) {
+          var martix = canvas.getCanvasTranslateXY(elem);
+          martix.x = Math.abs(martix.x);
+          martix.y = Math.abs(martix.y);
           var y = e.clientY;
           var x = e.clientX;
-          x = (x - (elem.offsetLeft - (elem.offsetWidth / 2)))
-          y = (y - (elem.offsetTop - (elem.offsetHeight / 2)))
+          x = (x - (elem.offsetLeft - martix.x))
+          y = (y - (elem.offsetTop - martix.y))
 
           switch (type) {
             case 'mousemove':
@@ -729,8 +747,8 @@ function Mango() {
               e = e.changedTouches[0];
               var y = e.clientY;
               var x = e.clientX;
-              x = (x - (elem.offsetLeft - (elem.offsetWidth / 2)))
-              y = (y - (elem.offsetTop - (elem.offsetHeight / 2)))
+              x = (x - (elem.offsetLeft - martix.x))
+              y = (y - (elem.offsetTop - martix.y))
               if (y > element.top && y < element.top + element.height && x > element.left && x < element.left + element.width) {
                 callback(e1)
               }
@@ -740,8 +758,8 @@ function Mango() {
               e = e.touches[0]
               var y = e.clientY;
               var x = e.clientX;
-              x = (x - (elem.offsetLeft - (elem.offsetWidth / 2)))
-              y = (y - (elem.offsetTop - (elem.offsetHeight / 2)))
+              x = (x - (elem.offsetLeft - martix.x))
+              y = (y - (elem.offsetTop - martix.y))
 
               if (y > element.top && y < element.top + element.height && x > element.left && x < element.left + element.width) {
                 callback(e1)

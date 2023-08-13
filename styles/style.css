@@ -27,7 +27,7 @@ body {
 .dropbar {
   padding: 1px 5px;
   padding-right: 10px;
-  font-size: 12px
+  font-size: 12px;
 }
 
 .dropbar:hover {
@@ -48,6 +48,7 @@ body {
   color: #fff;
   font-size: 12px;
   flex-direction: column;
+  box-shadow: 0 0 50px #111
 }
 
 .dropcontent p {
