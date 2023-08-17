@@ -24,7 +24,7 @@ function Mango() {
     },
     idStorage: [],
     version: 1.0,
-    dev_version: "1.9.34",
+    dev_version: "1.9.36",
     setPixels: function(w, h) {
       this.isCanvasFilled = false
       this.canvasElem.width = w;
@@ -171,23 +171,19 @@ function Mango() {
     },
     loopers: [],
     looper_property: {
-      class_mode: false
+      class_mode: false,
+      isRunning: false
     },
     addLoop(looper = canvas.Looper || Function) {
       this.loopers.push(looper)
     },
     start_loop() {
-      var self = this
-      setInterval(function() {
-        self.loopers.forEach((looper) => {
-          if (self.looper_property.class_mode == true && looper.enabled == true) {
-            looper.script()
-          } else {
-            looper()
-          }
-        })
-      })
+      this.looper_property.isRunning = true
     },
+    end_loop() {
+      this.looper_property.isRunning = false
+    },
+    endLoop: this.end_loop,
     startLoop: this.start_loop,
     Looper: class Looper {
       script = function() {};
@@ -232,6 +228,7 @@ function Mango() {
                   ctx.shadowColor = data.shadowColor;
                   ctx.shadowOffsetX = data.shadowX;
                   ctx.shadowOffsetY = data.shadowY;
+                  ctx.setLineDash(data.dashedLineSegments)
                   data.afterClip ? ctx.clip() : null;
                   ctx.rect(data.x, data.y, data.width, data.height);
                   ctx.stroke();
@@ -253,6 +250,7 @@ function Mango() {
                   ctx.shadowColor = data.shadowColor;
                   ctx.shadowOffsetX = data.shadowX;
                   ctx.shadowOffsetY = data.shadowY;
+                  ctx.setLineDash(data.dashedLineSegments)
                   // data.afterClip ? ctx.clip() : null;
                   ctx.arc(
                     data.x,
@@ -280,6 +278,7 @@ function Mango() {
                   ctx.shadowColor = data.shadowColor;
                   ctx.shadowOffsetX = data.shadowX;
                   ctx.shadowOffsetY = data.shadowY;
+                  ctx.setLineDash(data.dashedLineSegments)
                   // data.afterClip ? ctx.clip() : null;
                   ctx.ellipse(
                     data.x,
@@ -310,6 +309,8 @@ function Mango() {
                   ctx.shadowColor = data.shadowColor;
                   ctx.shadowOffsetX = data.shadowX;
                   ctx.shadowOffsetY = data.shadowY;
+                  ctx.textBaseline = data.textBaseline;
+                  ctx.setLineDash(data.dashedLineSegments)
                   // data.afterClip ? ctx.clip() : null;
                   ctx.fillText(data.text, data.x, data.y, data.textMax);
                   ctx.stroke();
@@ -339,6 +340,7 @@ function Mango() {
                   ctx.shadowColor = data.shadowColor;
                   ctx.shadowOffsetX = data.shadowX;
                   ctx.shadowOffsetY = data.shadowY;
+                  ctx.setLineDash(data.dashedLineSegments)
                   // data.afterClip ? ctx.clip() : null;
                   data.imageSizeAuto == true ? ctx.drawImage(
                     img,
@@ -378,6 +380,7 @@ function Mango() {
                   ctx.shadowColor = data.shadowColor;
                   ctx.shadowOffsetX = data.shadowX;
                   ctx.shadowOffsetY = data.shadowY;
+                  ctx.setLineDash(data.dashedLineSegments)
                   // data.afterClip ? ctx.clip() : null;
                   ctx.moveTo(data.x, data.y);
                   ctx.lineTo(data.width, data.height);
@@ -401,6 +404,7 @@ function Mango() {
                   ctx.shadowColor = data.shadowColor;
                   ctx.shadowOffsetX = data.shadowX;
                   ctx.shadowOffsetY = data.shadowY;
+                  ctx.setLineDash(data.dashedLineSegments)
                   // data.afterClip ? ctx.clip() : null;
                   ctx.moveTo(data.x, data.y);
                   ctx.quadraticCurveTo(
@@ -428,6 +432,7 @@ function Mango() {
                   ctx.shadowBlur = data.shadow;
                   ctx.shadowColor = data.shadowColor;
                   ctx.shadowOffsetX = data.shadowX;
+                  ctx.setLineDash(data.dashedLineSegments)
                   ctx.shadowOffsetY = data.shadowY;
                   // data.afterClip ? ctx.clip() : null;
                   ctx.moveTo(data.x, data.y);
@@ -458,6 +463,7 @@ function Mango() {
                   ctx.shadowBlur = data.shadow;
                   ctx.shadowColor = data.shadowColor;
                   ctx.shadowOffsetX = data.shadowX;
+                  ctx.setLineDash(data.dashedLineSegments)
                   ctx.shadowOffsetY = data.shadowY;
                   // data.afterClip ? ctx.clip() : null;
                   ctx.roundRect(
@@ -486,6 +492,7 @@ function Mango() {
                   ctx.shadowBlur = data.shadow;
                   ctx.shadowColor = data.shadowColor;
                   ctx.shadowOffsetX = data.shadowX;
+                  ctx.setLineDash(data.dashedLineSegments)
                   ctx.shadowOffsetY = data.shadowY;
                   // data.afterClip ? ctx.clip() : null;
                   ctx.clearRect(data.x, data.y, data.width, data.height);
@@ -509,6 +516,7 @@ function Mango() {
                   ctx.shadowColor = data.shadowColor;
                   ctx.shadowOffsetX = data.shadowX;
                   ctx.shadowOffsetY = data.shadowY;
+                  ctx.setLineDash(data.dashedLineSegments)
                   // data.afterClip ? ctx.clip() : null;
                   ctx.stroke(typeof data.path == 'string' ? new Path2D(data.path) : data.path);
                   ctx.fill(typeof data.path == 'string' ? new Path2D(data.path) : data.path);
@@ -556,6 +564,8 @@ function Mango() {
       this.width = 0;
       this.height = 0;
       this.fill = "#000";
+      this.textBaseline = 'top'
+      this.dashedLineSegments = [];
       this.stroke = "#00000050";
       this.type = "rect";
       this.textMax = 100000;
@@ -574,9 +584,44 @@ function Mango() {
       this.shadowColor = "#000";
       this.shadowX = 0;
       this.shadowY = 0;
+      // set Property (Function)
+      this.setProperty = function(key, value) {
+        this[key] = value
+      };
+      this.addExtraTextPixels = 5
+      this.getWidth = function() {
+        var self = this
+        if (self.type == 'image') {
+          return self.dWidth;
+        } else if (self.type == 'circle') {
+          return self.radius * 2
+        } else if (self.type == 'text') {
+          var canva = new OffscreenCanvas(100, 100)
+          var ctux = canva.getContext('2d')
+
+          ctux.font = self.fontSize + 'px ' + self.font
+          var mT = ctux.measureText(self.text)
+
+          return mT.width + self.addExtraTextPixels
+        } else {
+          return self.width
+        }
+      };
+      this.getHeight = function() {
+        var self = this
+        if (self.type == 'image') {
+          return self.dHeight;
+        } else if (self.type == 'circle') {
+          return self.radius * 2
+        } else if (self.type == 'text') {
+          return self.fontSize + self.addExtraTextPixels
+        } else {
+          return self.height
+        }
+      }
       this.onupdated = function() {
 
-      }
+      };
       this.update = this.onupdated
       this.oninit = function() {}
       this.init = this.oninit
@@ -1135,8 +1180,20 @@ function Mango() {
         } else {
           console.warn("set function in update");
         }
+
         canvas.clear();
         canvas.render();
+
+        if (canvas.looper_property.isRunning == true) {
+          canvas.loopers.forEach((looper) => {
+            if (canvas.looper_property.class_mode == true && looper.enabled == true) {
+              looper.script()
+            } else {
+              looper()
+            }
+          })
+        }
+
         if (canvas.app.onupdate instanceof Function) {
           canvas.app.onupdate();
         } else {

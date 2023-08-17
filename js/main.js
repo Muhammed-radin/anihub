@@ -38,7 +38,8 @@ var editorBox = new entity({
   stroke: '#557BB4',
   fill: '#ffffff10',
   isHidden: true,
-  z: 9999999999999999
+  z: 9999999999999999,
+  dashedLineSegments: [2, 2]
 })
 
 var widthEditorBox = new entity({
