@@ -35,12 +35,14 @@ function outProgress() {
 }
 
 var editorBox = new entity({
-  stroke: '#557BB4',
+  stroke: '#333',
   fill: '#ffffff10',
   isHidden: true,
   z: 9999999999999999,
-  dashedLineSegments: [2, 2]
+  dashedLineSegments: [4, 4],
+  strokeWidth: 2
 })
+
 
 var widthEditorBox = new entity({
   width: 10,
