@@ -509,7 +509,7 @@ function onstart(e) {
       break;
     case 'text':
       var width = 100
-      selection = [new entity({ type: 'text', x: (x - (elem.offsetLeft - (elem.offsetWidth / 2))), y: (y - (elem.offsetTop - (elem.offsetHeight / 2))), width: width, height: 30, fontSize: 14, text: 'empty' }).data]
+      selection = [new entity({ type: 'text', x: (x - (elem.offsetLeft - (elem.offsetWidth / 2))), y: (y - (elem.offsetTop - (elem.offsetHeight / 2))), width: width, height: 30, fontSize: 14, text: 'empty', splitLine: true }).data]
       uiUpdate()
       update()
       changeInputValues()
@@ -650,14 +650,16 @@ document.querySelector('[data-tool="export"]').onclick = function() {
       point.data.render = false
     }
 
-    var url = (elem.toDataURL('image/png'))
-    document.getElementById('inspectImg').src = url
+    setTimeout(function() {
+      var url = (elem.toDataURL('image/png'))
+      document.getElementById('inspectImg').src = url
 
-    editorBox.data.render = true
-    point.data.render = true
-    widthEditorBox.data.render = true
-    heightEditorBox.data.render = true
-    rotaterBox.data.render = true
+      editorBox.data.render = true
+      point.data.render = true
+      widthEditorBox.data.render = true
+      heightEditorBox.data.render = true
+      rotaterBox.data.render = true
+    }, 400)
   }
 
   if (selection.length != 0) {

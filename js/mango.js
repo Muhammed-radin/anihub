@@ -24,7 +24,7 @@ function Mango() {
     },
     idStorage: [],
     version: 1.0,
-    dev_version: "1.9.47",
+    dev_version: "1.9.48",
     setPixels: function(w, h) {
       this.isCanvasFilled = false;
       this.canvasElem.width = w;
@@ -331,11 +331,23 @@ function Mango() {
                   ctx.setLineDash(data.dashedLineSegments);
                   // data.afterClip ? ctx.clip() : null;
                   if (data.splitLine == false) {
+                    if (data.strokeWidth != 0) {
+                      ctx.strokeText(data.text, data.x, data.y, data.textMax);
+                    }
                     ctx.fillText(data.text, data.x, data.y, data.textMax);
                   } else {
                     var splitedLines = data.text.split("\n");
                     splitedLines.forEach(function(line, lineIndex) {
                       var index = lineIndex + 1;
+                      if (data.strokeWidth != 0) {
+                        ctx.strokeText(
+                          line,
+                          data.x,
+                          data.y +
+                          (data.fontSize + data.addExtraTextPixels) * index,
+                          data.textMax
+                        );
+                      }
                       ctx.fillText(
                         line,
                         data.x,

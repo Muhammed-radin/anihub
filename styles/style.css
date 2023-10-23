@@ -333,6 +333,7 @@ textarea {
   border-radius: 0;
   background: #222;
   color: #fff;
+  font-size: 11px !important;
   padding: 3px;
   font-family: monospace;
 }
