@@ -440,12 +440,12 @@ function move(e) {
     case 'move':
 
       if (orgE.changedTouches != undefined) {
-          if (orgE.changedTouches.length == 2) {
-            /*var value = Math.abs(orgE.changedTouches[1].clientX - e.clientX)
-            var scale = value / 100
-            graphical.scale = scale
-            elem.style.transform = 'translate(-50%,-50%) scale('+scale+')'*/
-          } else {
+        if (orgE.changedTouches.length == 2) {
+          /*var value = Math.abs(orgE.changedTouches[1].clientX - e.clientX)
+          var scale = value / 100
+          graphical.scale = scale
+          elem.style.transform = 'translate(-50%,-50%) scale('+scale+')'*/
+        } else {
           elem.style.left = x + 'px'
           elem.style.top = y + 'px'
         }
@@ -641,11 +641,20 @@ var apiReqData = []
 
 document.querySelector('[data-tool="export"]').onclick = function() {
   function exportImage() {
+    // for awaiting to capture
+    for (var i = 0; i < 2; i++) {
+      editorBox.data.render = false
+      widthEditorBox.data.render = false
+      heightEditorBox.data.render = false
+      rotaterBox.data.render = false
+      point.data.render = false
+    }
+
     var url = (elem.toDataURL('image/png'))
     document.getElementById('inspectImg').src = url
 
     editorBox.data.render = true
-    point.data.render = false
+    point.data.render = true
     widthEditorBox.data.render = true
     heightEditorBox.data.render = true
     rotaterBox.data.render = true

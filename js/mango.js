@@ -5,7 +5,7 @@ function Mango() {
     store: [],
     entityStore: [],
     layerStore: [],
-    activatedLayer: 'NO_ACITIVE_LAYER',
+    activatedLayer: "NO_ACITIVE_LAYER",
     addEntity: function(entity) {
       if (canvas.store.length == 0) {
         var defaultLayer = new canvas.Layer();
@@ -16,17 +16,17 @@ function Mango() {
         canvas.activatedLayer.add(entity);
       }
 
-      canvas.entityStore.push(entity)
+      canvas.entityStore.push(entity);
     },
     setLayer: function(layer) {
-      canvas.activatedLayer = layer
-      canvas.store.push(layer)
+      canvas.activatedLayer = layer;
+      canvas.store.push(layer);
     },
     idStorage: [],
     version: 1.0,
-    dev_version: "1.9.36",
+    dev_version: "1.9.47",
     setPixels: function(w, h) {
-      this.isCanvasFilled = false
+      this.isCanvasFilled = false;
       this.canvasElem.width = w;
       this.canvasElem.height = h;
     },
@@ -39,12 +39,13 @@ function Mango() {
         return {
           elem: elem,
           ctx: ctx,
+          app: canvas.app.start()
         };
       }
     },
     fillScreen: function() {
       this.setPixels(window.innerWidth, window.innerHeight);
-      this.isCanvasFilled = true
+      this.isCanvasFilled = true;
       var myStyle = document.createElement("style");
       myStyle.innerHTML = `
         body {
@@ -60,128 +61,128 @@ function Mango() {
     layerIndex: 0,
     Layer: class {
       constructor(name) {
-        this.name = name == undefined ? 'NAME' : name;
-        canvas.layerStore.push(this)
+        this.name = name == undefined ? "NAME" : name;
+        canvas.layerStore.push(this);
       }
-      name = 'LAYER_NAME';
+      name = "LAYER_NAME";
       entities = [];
-      index = canvas.layerIndex += 1;
+      index = (canvas.layerIndex += 1);
       zIndex = 0;
       enabled = true;
       getWidth() {
         var width = 0;
-        var wStr = '';
+        var wStr = "";
         var x = 0;
-        var xStr = '';
-        var multiCompare = ''
+        var xStr = "";
+        var multiCompare = "";
 
         this.entities.forEach(function(v) {
-          wStr += v.data ? v.data.width : v.width + ','
-        })
+          wStr += v.data ? v.data.width : v.width + ",";
+        });
 
         this.entities.forEach(function(v) {
-          xStr += v.data ? v.data.x : v.x + ','
-        })
+          xStr += v.data ? v.data.x : v.x + ",";
+        });
 
-        x = eval('Math.max(' + xStr + ')')
-        width = eval('Math.max(' + wStr + ')')
-        multiCompare = Math.max(x, width)
+        x = eval("Math.max(" + xStr + ")");
+        width = eval("Math.max(" + wStr + ")");
+        multiCompare = Math.max(x, width);
 
         if (x == multiCompare) {
-          width += (x)
+          width += x;
         }
 
-        console.log(x, width, multiCompare, this.entities, 'www');
+        console.log(x, width, multiCompare, this.entities, "www");
         return width;
-      };
+      }
       getHeight() {
         var height = 0;
-        var hStr = '';
+        var hStr = "";
         var y = 0;
-        var yStr = '';
-        var multiCompare = ''
+        var yStr = "";
+        var multiCompare = "";
 
         this.entities.forEach(function(v) {
-          hStr += v.data ? v.data.height : v.height + ','
-        })
+          hStr += v.data ? v.data.height : v.height + ",";
+        });
 
         this.entities.forEach(function(v) {
-          yStr += v.data ? v.data.y : v.y + ','
-        })
+          yStr += v.data ? v.data.y : v.y + ",";
+        });
 
-        y = eval('Math.max(' + yStr + ')')
-        height = eval('Math.max(' + hStr + ')')
-        multiCompare = Math.max(y, height)
+        y = eval("Math.max(" + yStr + ")");
+        height = eval("Math.max(" + hStr + ")");
+        multiCompare = Math.max(y, height);
 
         if (y == multiCompare) {
-          height += (y)
+          height += y;
         }
 
-        console.log(y, height, multiCompare, 'hhh');
+        console.log(y, height, multiCompare, "hhh");
         return height;
-      };
+      }
       enable() {
         this.enabled = true;
         var ent = this.entities;
         var enabled = this.enabled;
         ent.forEach(function(value, index) {
-          value.data ? value.data.render = enabled : value.render = enabled;
-        })
+          value.data ? (value.data.render = enabled) : (value.render = enabled);
+        });
       }
       disable() {
         this.enabled = false;
         var ent = this.entities;
         var enabled = this.enabled;
         ent.forEach(function(value, index) {
-          value.data ? value.data.render = enabled : value.render = enabled;
-        })
+          value.data ? (value.data.render = enabled) : (value.render = enabled);
+        });
       }
       length = this.entities.length;
       id = canvas.id();
       add(...items) {
         var ent = this.entities;
         items.forEach(function(value, index) {
-          ent.push(value)
-        })
-      };
+          ent.push(value);
+        });
+      }
       destroy() {
-        this.entities.forEach((v) => v.data ? v.data.destroy() : v.destroy())
+        this.entities.forEach((v) => (v.data ? v.data.destroy() : v.destroy()));
         Object.keys(this).forEach((v) => {
-          delete this[v]
-        })
+          delete this[v];
+        });
       }
     },
     getEntityByName(name) {
-      var ent = null
+      var ent = null;
       canvas.entityStore.forEach(function(entity) {
         if (name == entity.name) {
-          ent = entity
+          ent = entity;
         }
-      })
+      });
       return ent;
     },
     getEntityById(id) {
-      var ent = null
+      var ent = null;
       canvas.entityStore.forEach(function(entity) {
         if (id == entity.id) {
-          ent = entity
+          ent = entity;
         }
-      })
+      });
       return ent;
     },
     loopers: [],
     looper_property: {
       class_mode: false,
-      isRunning: false
+      isRunning: false,
     },
     addLoop(looper = canvas.Looper || Function) {
-      this.loopers.push(looper)
+      this.loopers.push(looper);
     },
     start_loop() {
-      this.looper_property.isRunning = true
+      this.looper_property.isRunning = true;
     },
     end_loop() {
-      this.looper_property.isRunning = false
+      this.looper_property.isRunning = false;
     },
     endLoop: this.end_loop,
     startLoop: this.start_loop,
@@ -196,25 +197,34 @@ function Mango() {
         if (layer.entities) {
           layer.entities.sort(function(a, b) {
             return a.z - b.z;
-          })
+          });
 
           layer.entities.forEach(function(data, dataIndex) {
             ctx.beginPath();
-            data.onupdated()
+            data.onupdated();
             if (data._inited == undefined) {
-              data.oninit()
+              data.oninit();
             }
-            data._inited = true
+            data._inited = true;
 
             if (data.render == true) {
               if (data.afterScript == true) {
-                typeof data.script == 'string' ? eval(data.script) : data.script()
+                typeof data.script == "string" ?
+                  eval(data.script) :
+                  data.script();
               }
 
               switch (data.type) {
                 case "rect":
                   ctx.save();
-                  ctx.transform(data.scale.x, data.skew.x, data.skew.y, data.scale.y, data.translate.x, data.translate.y)
+                  ctx.transform(
+                    data.scale.x,
+                    data.skew.x,
+                    data.skew.y,
+                    data.scale.y,
+                    data.translate.x,
+                    data.translate.y
+                  );
                   /*ctx.translate(
                     data.translate.x + data.physics.vx,
                     data.translate.y + data.physics.vy
@@ -228,11 +238,13 @@ function Mango() {
                   ctx.shadowColor = data.shadowColor;
                   ctx.shadowOffsetX = data.shadowX;
                   ctx.shadowOffsetY = data.shadowY;
-                  ctx.setLineDash(data.dashedLineSegments)
-                  data.afterClip ? ctx.clip() : null;
+                  ctx.globalAlpha = data.opacity;
+                  ctx.filter = data.filter;
+                  ctx.setLineDash(data.dashedLineSegments);
                   ctx.rect(data.x, data.y, data.width, data.height);
                   ctx.stroke();
                   ctx.fill();
+                  data.afterClip ? ctx.clip() : null;
                   ctx.restore();
                   break;
                 case "circle":
@@ -250,7 +262,9 @@ function Mango() {
                   ctx.shadowColor = data.shadowColor;
                   ctx.shadowOffsetX = data.shadowX;
                   ctx.shadowOffsetY = data.shadowY;
-                  ctx.setLineDash(data.dashedLineSegments)
+                  ctx.globalAlpha = data.opacity;
+                  ctx.filter = data.filter;
+                  ctx.setLineDash(data.dashedLineSegments);
                   // data.afterClip ? ctx.clip() : null;
                   ctx.arc(
                     data.x,
@@ -278,7 +292,9 @@ function Mango() {
                   ctx.shadowColor = data.shadowColor;
                   ctx.shadowOffsetX = data.shadowX;
                   ctx.shadowOffsetY = data.shadowY;
-                  ctx.setLineDash(data.dashedLineSegments)
+                  ctx.globalAlpha = data.opacity;
+                  ctx.filter = data.filter;
+                  ctx.setLineDash(data.dashedLineSegments);
                   // data.afterClip ? ctx.clip() : null;
                   ctx.ellipse(
                     data.x,
@@ -309,22 +325,41 @@ function Mango() {
                   ctx.shadowColor = data.shadowColor;
                   ctx.shadowOffsetX = data.shadowX;
                   ctx.shadowOffsetY = data.shadowY;
+                  ctx.globalAlpha = data.opacity;
+                  ctx.filter = data.filter;
                   ctx.textBaseline = data.textBaseline;
-                  ctx.setLineDash(data.dashedLineSegments)
+                  ctx.setLineDash(data.dashedLineSegments);
                   // data.afterClip ? ctx.clip() : null;
-                  ctx.fillText(data.text, data.x, data.y, data.textMax);
+                  if (data.splitLine == false) {
+                    ctx.fillText(data.text, data.x, data.y, data.textMax);
+                  } else {
+                    var splitedLines = data.text.split("\n");
+                    splitedLines.forEach(function(line, lineIndex) {
+                      var index = lineIndex + 1;
+                      ctx.fillText(
+                        line,
+                        data.x,
+                        data.y +
+                        (data.fontSize + data.addExtraTextPixels) * index,
+                        data.textMax
+                      );
+                    });
+                  }
+
+                  if (data.width == null) {
+                    data.setProperty("width", data.getWidth());
+                  }
+
                   ctx.stroke();
                   ctx.fill();
                   ctx.restore();
                   break;
                 case "image":
-                  if (data.img.src == data.imageURl) {
-
-                  } else {
-                    data.img.src = data.imageURl;
+                  if (data.img.src == data.imageURL || data.mergeimageURL == false) {} else {
+                    data.img.src = data.imageURL;
                   }
 
-                  var img = data.img
+                  var img = data.img;
 
                   ctx.save();
                   ctx.translate(
@@ -340,25 +375,29 @@ function Mango() {
                   ctx.shadowColor = data.shadowColor;
                   ctx.shadowOffsetX = data.shadowX;
                   ctx.shadowOffsetY = data.shadowY;
-                  ctx.setLineDash(data.dashedLineSegments)
+                  ctx.globalAlpha = data.opacity;
+                  ctx.filter = data.filter;
+                  ctx.setLineDash(data.dashedLineSegments);
                   // data.afterClip ? ctx.clip() : null;
-                  data.imageSizeAuto == true ? ctx.drawImage(
-                    img,
-                    data.x,
-                    data.y,
-                    data.width,
-                    data.height,
-                  ) : ctx.drawImage(
-                    img,
-                    data.x,
-                    data.y,
-                    data.width,
-                    data.height,
-                    data.dx,
-                    data.dy,
-                    data.dWidth,
-                    data.dHeight
-                  );
+                  data.imageSizeAuto == true ?
+                    ctx.drawImage(
+                      img,
+                      data.x,
+                      data.y,
+                      data.width,
+                      data.height
+                    ) :
+                    ctx.drawImage(
+                      img,
+                      data.x,
+                      data.y,
+                      data.width,
+                      data.height,
+                      data.dx,
+                      data.dy,
+                      data.dWidth,
+                      data.dHeight
+                    );
                   ctx.stroke();
                   ctx.fill();
                   ctx.restore();
@@ -380,7 +419,9 @@ function Mango() {
                   ctx.shadowColor = data.shadowColor;
                   ctx.shadowOffsetX = data.shadowX;
                   ctx.shadowOffsetY = data.shadowY;
-                  ctx.setLineDash(data.dashedLineSegments)
+                  ctx.globalAlpha = data.opacity;
+                  ctx.filter = data.filter;
+                  ctx.setLineDash(data.dashedLineSegments);
                   // data.afterClip ? ctx.clip() : null;
                   ctx.moveTo(data.x, data.y);
                   ctx.lineTo(data.width, data.height);
@@ -404,7 +445,9 @@ function Mango() {
                   ctx.shadowColor = data.shadowColor;
                   ctx.shadowOffsetX = data.shadowX;
                   ctx.shadowOffsetY = data.shadowY;
-                  ctx.setLineDash(data.dashedLineSegments)
+                  ctx.globalAlpha = data.opacity;
+                  ctx.filter = data.filter;
+                  ctx.setLineDash(data.dashedLineSegments);
                   // data.afterClip ? ctx.clip() : null;
                   ctx.moveTo(data.x, data.y);
                   ctx.quadraticCurveTo(
@@ -432,7 +475,9 @@ function Mango() {
                   ctx.shadowBlur = data.shadow;
                   ctx.shadowColor = data.shadowColor;
                   ctx.shadowOffsetX = data.shadowX;
-                  ctx.setLineDash(data.dashedLineSegments)
+                  ctx.globalAlpha = data.opacity;
+                  ctx.filter = data.filter;
+                  ctx.setLineDash(data.dashedLineSegments);
                   ctx.shadowOffsetY = data.shadowY;
                   // data.afterClip ? ctx.clip() : null;
                   ctx.moveTo(data.x, data.y);
@@ -463,9 +508,11 @@ function Mango() {
                   ctx.shadowBlur = data.shadow;
                   ctx.shadowColor = data.shadowColor;
                   ctx.shadowOffsetX = data.shadowX;
-                  ctx.setLineDash(data.dashedLineSegments)
+                  ctx.globalAlpha = data.opacity;
+                  ctx.filter = data.filter;
+                  ctx.setLineDash(data.dashedLineSegments);
                   ctx.shadowOffsetY = data.shadowY;
-                  // data.afterClip ? ctx.clip() : null;
+                  //data.afterClip ? ctx.clip() : null;
                   ctx.roundRect(
                     data.x,
                     data.y,
@@ -492,7 +539,9 @@ function Mango() {
                   ctx.shadowBlur = data.shadow;
                   ctx.shadowColor = data.shadowColor;
                   ctx.shadowOffsetX = data.shadowX;
-                  ctx.setLineDash(data.dashedLineSegments)
+                  ctx.globalAlpha = data.opacity;
+                  ctx.filter = data.filter;
+                  ctx.setLineDash(data.dashedLineSegments);
                   ctx.shadowOffsetY = data.shadowY;
                   // data.afterClip ? ctx.clip() : null;
                   ctx.clearRect(data.x, data.y, data.width, data.height);
@@ -516,19 +565,29 @@ function Mango() {
                   ctx.shadowColor = data.shadowColor;
                   ctx.shadowOffsetX = data.shadowX;
                   ctx.shadowOffsetY = data.shadowY;
-                  ctx.setLineDash(data.dashedLineSegments)
+                  ctx.globalAlpha = data.opacity;
+                  ctx.filter = data.filter;
+                  ctx.setLineDash(data.dashedLineSegments);
                   // data.afterClip ? ctx.clip() : null;
-                  ctx.stroke(typeof data.path == 'string' ? new Path2D(data.path) : data.path);
-                  ctx.fill(typeof data.path == 'string' ? new Path2D(data.path) : data.path);
+                  ctx.stroke(
+                    typeof data.path == "string" ?
+                    new Path2D(data.path) :
+                    data.path
+                  );
+                  ctx.fill(
+                    typeof data.path == "string" ?
+                    new Path2D(data.path) :
+                    data.path
+                  );
                   ctx.restore();
                   break;
               }
 
               if (data.afterScript == false) {
-                eval(data.script)
+                eval(data.script);
               }
             }
-          })
+          });
         }
       });
     },
@@ -538,10 +597,10 @@ function Mango() {
 
       return {
         x: matrix.e,
-        y: matrix.f
-      }
+        y: matrix.f,
+      };
     },
-    entity: function(data) {
+    entity: function(data, addOn = true) {
       var tempData = new canvas._newDataModule();
       var dataKey = Object.keys(data);
       var dataValues = Object.values(data);
@@ -550,7 +609,9 @@ function Mango() {
         tempData[v] = dataValues[i];
       });
 
-      canvas.addEntity(tempData);
+      if (addOn) {
+        canvas.addEntity(tempData);
+      }
       this.data = tempData;
     },
     id: function() {
@@ -561,71 +622,85 @@ function Mango() {
     _newDataModule: function() {
       this.x = 0;
       this.y = 0;
-      this.width = 0;
+      this.width = this.type == "text" ? null : 0;
       this.height = 0;
       this.fill = "#000";
-      this.textBaseline = 'top'
+      this.textBaseline = "top";
       this.dashedLineSegments = [];
       this.stroke = "#00000050";
       this.type = "rect";
       this.textMax = 100000;
       this.strokeWidth = 0;
+      this.textAlign = "left" | "center" | "right";
       this.bx = 0;
       this.by = 0;
-      this.path = '';
+      this.splitLine = false;
+      this.path = "";
       this.img = new Image();
       this.number = canvas.app.indexEntity++;
-      this.z = this.number
+      this.z = this.number;
       this.id = canvas.id();
       this.render = true;
-      this.imageURl = "NOT_FOUND_IMAGE_URL";
+      this.imageURL = "NOT_FOUND_IMAGE_URL";
       this.radius = 0;
-      this.arcLevel = 0;
+      this.arcLevel = 3;
+      this.saveContext = true;
+      this.restoreContext = true;
       this.shadowColor = "#000";
       this.shadowX = 0;
       this.shadowY = 0;
-      // set Property (Function)
+      this.opacity = 1;
+      this.filter = "";
+      this.textWidths = [];
+      this.mergeimageURL = true;
       this.setProperty = function(key, value) {
-        this[key] = value
+        this[key] = value;
       };
-      this.addExtraTextPixels = 5
+      this.addExtraTextPixels = 5;
       this.getWidth = function() {
-        var self = this
-        if (self.type == 'image') {
+        var self = this;
+        if (self.type == "image") {
           return self.dWidth;
-        } else if (self.type == 'circle') {
-          return self.radius * 2
-        } else if (self.type == 'text') {
-          var canva = new OffscreenCanvas(100, 100)
-          var ctux = canva.getContext('2d')
+        } else if (self.type == "circle") {
+          return self.radius * 2;
+        } else if (self.type == "text") {
+          var canva = new OffscreenCanvas(100, 100);
+          var ctux = canva.getContext("2d");
 
-          ctux.font = self.fontSize + 'px ' + self.font
-          var mT = ctux.measureText(self.text)
+          ctux.font = self.fontSize + "px " + self.font;
+          var mT = ctux.measureText(self.text);
+          if (self.text.includes("\n")) {
+            var splitedLines = self.text.split("\n");
+            var widths = [];
+            splitedLines.forEach(function(txt) {
+              widths.push(ctux.measureText(txt));
+            });
+            mT.width = Math.max.apply(widths);
+            self.setProperty("textWidths", widths);
+          }
 
-          return mT.width + self.addExtraTextPixels
+          return mT.width + self.addExtraTextPixels;
         } else {
-          return self.width
+          return self.width;
         }
       };
       this.getHeight = function() {
-        var self = this
-        if (self.type == 'image') {
+        var self = this;
+        if (self.type == "image") {
           return self.dHeight;
-        } else if (self.type == 'circle') {
-          return self.radius * 2
-        } else if (self.type == 'text') {
-          return self.fontSize + self.addExtraTextPixels
+        } else if (self.type == "circle") {
+          return self.radius * 2;
+        } else if (self.type == "text") {
+          return self.fontSize + self.addExtraTextPixels;
         } else {
-          return self.height
+          return self.height;
         }
-      }
-      this.onupdated = function() {
-
       };
-      this.update = this.onupdated
-      this.oninit = function() {}
-      this.init = this.oninit
-      this.script = '';
+      this.onupdated = function() {};
+      this.update = this.onupdated;
+      this.oninit = function() {};
+      this.init = this.oninit;
+      this.script = "";
       this.afterScript = false;
       this.afterClip = false;
       this.text = "TEXT_IS_EMPTY";
@@ -640,39 +715,39 @@ function Mango() {
       this.skew = {
         x: 0,
         y: 0,
-      }
+      };
       this.rotate = 0;
-      this.fontSize = 30;
+      this.fontSize = 25;
       this.font = "sans-serif";
       this.dx = 0;
       this.dy = 0;
       this.dWidth = 100;
       this.dHeight = 100;
-      this.layer = canvas.activatedLayer
+      this.layer = canvas.activatedLayer;
       this.name = "NOT_NAME_SETTELD";
       this.destroy = function() {
-        var ent = null
+        var ent = null;
         var self = this;
         canvas.store.forEach(function(layer, lI) {
           if (self.layer.id == layer.id) {
             layer.entities.forEach(function(entity, eI) {
               if (self.id == entity.id) {
-                ent = entity
-                layer.entities.splice(eI, 1)
+                ent = entity;
+                layer.entities.splice(eI, 1);
 
                 Object.keys(self).forEach(function(v, i) {
                   delete self[v];
                 });
               }
-            })
+            });
           }
-        })
+        });
         //canvas.store.splice(this.number, 1);
         canvas.idStorage.splice(this.number, 1);
       };
       this.shadow = 0;
       this.physics = {
-        type: 'dynamic',
+        type: "dynamic",
         enabled: false,
         weight: 0,
         damping: 0,
@@ -684,14 +759,13 @@ function Mango() {
       this.tags = [];
       this.imageSizeAuto = false;
       this.on = function(type, callback) {
-        var elem = canvas.canvasElem
+        var elem = canvas.canvasElem;
         var element = {
           top: this.y,
           left: this.x,
           height: this.height,
           width: this.width,
-        }
-
+        };
 
         setInterval(() => {
           element = {
@@ -699,8 +773,8 @@ function Mango() {
             left: this.x,
             height: this.height,
             width: this.width,
-          }
-        })
+          };
+        });
 
         var self = this;
 
@@ -711,53 +785,67 @@ function Mango() {
           var y = e.clientY;
           var x = e.clientX;
 
-          x = (x - (elem.offsetLeft - (martix.x)))
-          y = (y - (elem.offsetTop - (martix.y)))
+          x = x - (elem.offsetLeft - martix.x);
+          y = y - (elem.offsetTop - martix.y);
 
           switch (type) {
-            case 'mousemove':
-            case 'mousedown':
-            case 'mouseup':
-            case 'click':
-              if (y > element.top && y < element.top + element.height && x > element.left && x < element.left + element.width) {
-                callback(e)
+            case "mousemove":
+            case "mousedown":
+            case "mouseup":
+            case "click":
+              if (
+                y > element.top &&
+                y < element.top + element.height &&
+                x > element.left &&
+                x < element.left + element.width
+              ) {
+                callback(e);
               }
               break;
-            case 'touchmove':
-            case 'touchend':
-              var e1 = e
+            case "touchmove":
+            case "touchend":
+              var e1 = e;
               e = e.changedTouches[0];
               var y = e.clientY;
               var x = e.clientX;
-              x = (x - (elem.offsetLeft - (martix.x)))
-              y = (y - (elem.offsetTop - (martix.y)))
-              if (y > element.top && y < element.top + element.height && x > element.left && x < element.left + element.width) {
-                callback(e1)
+              x = x - (elem.offsetLeft - martix.x);
+              y = y - (elem.offsetTop - martix.y);
+              if (
+                y > element.top &&
+                y < element.top + element.height &&
+                x > element.left &&
+                x < element.left + element.width
+              ) {
+                callback(e1);
               }
               break;
-            case 'touchstart':
-              var e1 = e
-              e = e.touches[0]
+            case "touchstart":
+              var e1 = e;
+              e = e.touches[0];
               var y = e.clientY;
               var x = e.clientX;
-              x = (x - (elem.offsetLeft - (martix.x)))
-              y = (y - (elem.offsetTop - (martix.y)))
+              x = x - (elem.offsetLeft - martix.x);
+              y = y - (elem.offsetTop - martix.y);
 
-              if (y > element.top && y < element.top + element.height && x > element.left && x < element.left + element.width) {
-                callback(e)
+              if (
+                y > element.top &&
+                y < element.top + element.height &&
+                x > element.left &&
+                x < element.left + element.width
+              ) {
+                callback(e);
               }
               break;
           }
-        })
-      }
+        });
+      };
       this.off = function(type, callback) {
         var element = {
           top: this.y,
           left: this.x,
           height: this.height,
           width: this.width,
-        }
-
+        };
 
         setInterval(() => {
           element = {
@@ -765,8 +853,8 @@ function Mango() {
             left: this.x,
             height: this.height,
             width: this.width,
-          }
-        })
+          };
+        });
 
         canvas.canvasElem.removeEventListener(type, function(e) {
           var martix = canvas.getCanvasTranslateXY(elem);
@@ -774,45 +862,60 @@ function Mango() {
           martix.y = Math.abs(martix.y);
           var y = e.clientY;
           var x = e.clientX;
-          x = (x - (elem.offsetLeft - martix.x))
-          y = (y - (elem.offsetTop - martix.y))
+          x = x - (elem.offsetLeft - martix.x);
+          y = y - (elem.offsetTop - martix.y);
 
           switch (type) {
-            case 'mousemove':
-            case 'mousedown':
-            case 'mouseup':
-            case 'click':
-              if (y > element.top && y < element.top + element.height && x > element.left && x < element.left + element.width) {
-                callback(e)
+            case "mousemove":
+            case "mousedown":
+            case "mouseup":
+            case "click":
+              if (
+                y > element.top &&
+                y < element.top + element.height &&
+                x > element.left &&
+                x < element.left + element.width
+              ) {
+                callback(e);
               }
               break;
-            case 'touchmove':
-            case 'touchend':
-              var e1 = e
+            case "touchmove":
+            case "touchend":
+              var e1 = e;
               e = e.changedTouches[0];
               var y = e.clientY;
               var x = e.clientX;
-              x = (x - (elem.offsetLeft - martix.x))
-              y = (y - (elem.offsetTop - martix.y))
-              if (y > element.top && y < element.top + element.height && x > element.left && x < element.left + element.width) {
-                callback(e1)
+              x = x - (elem.offsetLeft - martix.x);
+              y = y - (elem.offsetTop - martix.y);
+              if (
+                y > element.top &&
+                y < element.top + element.height &&
+                x > element.left &&
+                x < element.left + element.width
+              ) {
+                callback(e1);
               }
               break;
-            case 'touchstart':
-              var e1 = e
-              e = e.touches[0]
+            case "touchstart":
+              var e1 = e;
+              e = e.touches[0];
               var y = e.clientY;
               var x = e.clientX;
-              x = (x - (elem.offsetLeft - martix.x))
-              y = (y - (elem.offsetTop - martix.y))
+              x = x - (elem.offsetLeft - martix.x);
+              y = y - (elem.offsetTop - martix.y);
 
-              if (y > element.top && y < element.top + element.height && x > element.left && x < element.left + element.width) {
-                callback(e1)
+              if (
+                y > element.top &&
+                y < element.top + element.height &&
+                x > element.left &&
+                x < element.left + element.width
+              ) {
+                callback(e1);
               }
               break;
           }
-        })
-      }
+        });
+      };
     },
     isCanvasFilled: false,
     clear: function() {
@@ -824,7 +927,37 @@ function Mango() {
       );
     },
     app: {
-      count: function(from, to, callback, howMany, speed) {
+      start() {
+        this.Entity = canvas.entity
+        this.Layer = canvas.Layer
+        this.EntityGroup = canvas.entityGroup
+        this.HEXColor = this.Color
+        return this;
+      },
+      RGBColor: class RGBColor {
+        constructor(r, g, b, a = false) {
+          this.r = r;
+          this.g = g;
+          this.b = b;
+          this.a = a;
+          this.color = 'rgb(' + r + "," + g + "," + b + "," + a + ')';
+        }
+        update() {
+          this.color = 'rgb(' + this.r + "," + this.g + "," + this.b + "," + this.a + ')';
+        }
+        toHex() {
+          return canvas.app.rgbToHex(this.r, this.g, this.b) + (a == false ? '' : 10 * this.a)
+        }
+      },
+      Color: class Color {
+        constructor(hex) {
+          this.hex = hex
+        }
+        toRGB() {
+          return canvas.app.hexToRgb(this.hex)
+        }
+      },
+      count(from, to, callback, howMany, speed) {
         var plusValue = from;
         var countValue = 1;
         var countSpeed = 100;
@@ -854,107 +987,158 @@ function Mango() {
         }, countSpeed);
         return plusValue;
       },
-      entityToImg: function(entity) {
-        entity = entity.data ? entity.data : entity
-        entity.cropWidth ? '' : console.warn('please add cropWidth and cropHeight in your entity properties')
-        var demo = document.createElement('canvas')
-        document.body.appendChild(demo)
-        var onfalse = entity.render
-        entity.render = true
-        demo.width = entity.cropWidth
-        demo.height = entity.cropHeight
-        var renderManager = Mango()
-        renderManager.setCanvas(demo)
+      rgbToHex(r, g, b) {
+        function componentToHex(c) {
+          var hex = c.toString(16);
+          return hex.length == 1 ? "0" + hex : hex;
+        }
 
-        renderManager.addEntity(entity)
-        var rt = ''
+        return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+      },
+
+      hexToRgb(hex) {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? { r: parseInt(result[1], 16), g: parseInt(result[2], 16), b: parseInt(result[3], 16) } : null;
+      },
+      entityToImg(entity) {
+        entity = entity.data ? entity.data : entity;
+        entity.cropWidth ?
+          "" :
+          console.warn(
+            "please add cropWidth and cropHeight in your entity properties"
+          );
+        var demo = document.createElement("canvas");
+        document.body.appendChild(demo);
+        var onfalse = entity.render;
+        entity.render = true;
+        demo.width = entity.cropWidth;
+        demo.height = entity.cropHeight;
+        var renderManager = Mango();
+        renderManager.setCanvas(demo);
+
+        renderManager.addEntity(entity);
+        var rt = "";
         for (i = 0; i < 50; i++) {
-          renderManager.render()
-          rt = demo.toDataURL('image/png')
+          renderManager.render();
+          rt = demo.toDataURL("image/png");
           if (i == 10) {
-            demo.style.display = 'none'
-            demo.remove()
-            onfalse ? '' : entity.render = false
-            return rt
+            demo.style.display = "none";
+            demo.remove();
+            onfalse ? "" : (entity.render = false);
+            return rt;
           }
         }
       },
-      colorsFromImg: function(url) {
-        var demo = document.createElement('canvas')
-        var img = new Image()
-        img.src = url
-        var loaded = false
-        var rt = {}
+      colorsFromImg(url) {
+        var demo = document.createElement("canvas");
+        var img = new Image();
+        img.src = url;
+        var loaded = false;
+        var rt = {};
         img.onload = function() {
           rt = {
             colors: [],
             inRGB: [],
-            img: img
+            img: img,
+          };
+          var ctx = demo.getContext("2d");
+          demo.width = img.width;
+          demo.height = img.height;
+          ctx.beginPath();
+          ctx.drawImage(img, 0, 0, img.width, img.height);
+          ctx.fill();
+
+          var rtq = false;
+
+          var data = ctx.getImageData(0, 0, demo.width, demo.height).data;
+          rt.colors = data;
+          for (var i = 0; i < data.length; i += 0) {
+            rt.inRGB.push(
+              "rgba(" +
+              data[i] +
+              ", " +
+              data[i + 1] +
+              ", " +
+              data[i + 2] +
+              ", " +
+              data[i + 3] +
+              ")"
+            );
+            i += 4;
           }
-          var ctx = demo.getContext('2d')
-          demo.width = img.width
-          demo.height = img.height
-          ctx.beginPath()
-          ctx.drawImage(img, 0, 0, img.width, img.height)
-          ctx.fill()
 
-          var rtq = false
-
-          var data = ctx.getImageData(0, 0, demo.width, demo.height).data
-          rt.colors = data
-          for (var i = 0; i < (data.length); i += 0) {
-            rt.inRGB.push('rgba(' + data[i] + ', ' + data[i + 1] + ', ' + data[i + 2] + ', ' + data[i + 3] + ')')
-            i += 4
-          }
-
-          loaded = true
-        }
+          loaded = true;
+        };
 
         var pro = new Promise(function(resolve) {
           var timer = setInterval(function() {
             if (loaded == true) {
-              resolve(rt)
+              resolve(rt);
               clearInterval(timer);
             }
-          })
-        })
+          });
+        });
 
         return pro;
       },
-      createGradient: function(x1, y1, x2, y2, colorStop) {
+      createGradient(x1, y1, x2, y2, colorStop) {
         var rt = {
           x1,
           x2,
           y1,
           y2,
           colorStop,
-          type: 'linear',
+          type: "linear",
           gradient: null,
-          imageUrl: null,
+          imageURL: null,
           linearImage: null,
-          imageColors: null
-        }
+          imageColors: null,
+        };
         ////
-        var grad = canvas.canvasCtx.createLinearGradient(x1, y1, x2, y2)
-        var invertNum = 0
-        var codeStop = 'grad.addColorStop(PN, "CL")'
-        var runStop = ''
+        var grad = canvas.canvasCtx.createLinearGradient(x1, y1, x2, y2);
+        var invertNum = 0;
+        var codeStop = 'grad.addColorStop(PN, "CL")';
+        var runStop = "";
         colorStop.forEach(function(color) {
-          invertNum += 1
+          invertNum += 1;
           if (invertNum == 1) {
-            runStop = codeStop.replace('PN', color)
+            runStop = codeStop.replace("PN", color);
           } else if (invertNum == 2) {
-            runStop = runStop.replace('CL', color)
-            eval(runStop)
-            runStop = '';
+            runStop = runStop.replace("CL", color);
+            eval(runStop);
+            runStop = "";
             invertNum = 0;
           }
-        })
-        rt.gradient = grad
-        rt.imageUrl = canvas.app.entityToImg(new entity({ fill: rt.gradient, width: x2, height: y2, cropWidth: x2, cropHeight: y2, render: false }))
-        rt.linearImage = canvas.app.entityToImg(new entity({ fill: rt.gradient, width: x2, height: 1, cropWidth: x2, cropHeight: 1, render: false }))
-        rt.imageColors = canvas.app.colorsFromImg(rt.linearImage)
-        return rt
+        });
+        rt.gradient = grad;
+        rt.imageURL = canvas.app.entityToImg(
+          new canvas.entity(
+            {
+              fill: rt.gradient,
+              width: x2,
+              height: y2,
+              cropWidth: x2,
+              cropHeight: y2,
+              render: false,
+            },
+            false
+          )
+        );
+        rt.linearImage = canvas.app.entityToImg(
+          new canvas.entity(
+            {
+              fill: rt.gradient,
+              width: x2,
+              height: 1,
+              cropWidth: x2,
+              cropHeight: 1,
+              render: false,
+            },
+            false
+          )
+        );
+        rt.imageColors = canvas.app.colorsFromImg(rt.linearImage);
+        return rt;
       },
       keyboard: {
         value: false,
@@ -975,7 +1159,7 @@ function Mango() {
         },
       },
       indexEntity: 0,
-      css: function(string) {
+      css(string) {
         var style = document.createElement("style");
         style.innerHTML = string;
         document.head.appendChild(style);
@@ -1050,23 +1234,23 @@ function Mango() {
       randomColor: function(light) {
         if (light == undefined || light === undefined || light == null) {
           var colorCode = [
-                    1,
-                    2,
-                    3,
-                    4,
-                    5,
-                    6,
-                    7,
-                    8,
-                    9,
-                    0,
-                    "a",
-                    "b",
-                    "c",
-                    "d",
-                    "e",
-                    "f",
-                ];
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            0,
+            "a",
+            "b",
+            "c",
+            "d",
+            "e",
+            "f",
+          ];
           var colorCodeGen =
             "#" +
             colorCode[Math.floor(Math.random() * colorCode.length)] +
@@ -1082,64 +1266,40 @@ function Mango() {
               var colorCode = ["a", "b", "c", "d", "e", "f"];
               var colorCodeGen =
                 "#" +
-                colorCode[
-                  Math.floor(Math.random() * colorCode.length)
-                ] +
-                colorCode[
-                  Math.floor(Math.random() * colorCode.length)
-                ] +
-                colorCode[
-                  Math.floor(Math.random() * colorCode.length)
-                ] +
-                colorCode[
-                  Math.floor(Math.random() * colorCode.length)
-                ] +
-                colorCode[
-                  Math.floor(Math.random() * colorCode.length)
-                ] +
-                colorCode[
-                  Math.floor(Math.random() * colorCode.length)
-                ];
+                colorCode[Math.floor(Math.random() * colorCode.length)] +
+                colorCode[Math.floor(Math.random() * colorCode.length)] +
+                colorCode[Math.floor(Math.random() * colorCode.length)] +
+                colorCode[Math.floor(Math.random() * colorCode.length)] +
+                colorCode[Math.floor(Math.random() * colorCode.length)] +
+                colorCode[Math.floor(Math.random() * colorCode.length)];
               return colorCodeGen;
             } else {
               var colorCode = [
-                            1,
-                            2,
-                            3,
-                            4,
-                            5,
-                            6,
-                            7,
-                            8,
-                            9,
-                            0,
-                            "a",
-                            "b",
-                            "c",
-                            "d",
-                            "e",
-                            "f",
-                        ];
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                0,
+                "a",
+                "b",
+                "c",
+                "d",
+                "e",
+                "f",
+              ];
               var colorCodeGen =
                 "#" +
-                colorCode[
-                  Math.floor(Math.random() * colorCode.length)
-                ] +
-                colorCode[
-                  Math.floor(Math.random() * colorCode.length)
-                ] +
-                colorCode[
-                  Math.floor(Math.random() * colorCode.length)
-                ] +
-                colorCode[
-                  Math.floor(Math.random() * colorCode.length)
-                ] +
-                colorCode[
-                  Math.floor(Math.random() * colorCode.length)
-                ] +
-                colorCode[
-                  Math.floor(Math.random() * colorCode.length)
-                ];
+                colorCode[Math.floor(Math.random() * colorCode.length)] +
+                colorCode[Math.floor(Math.random() * colorCode.length)] +
+                colorCode[Math.floor(Math.random() * colorCode.length)] +
+                colorCode[Math.floor(Math.random() * colorCode.length)] +
+                colorCode[Math.floor(Math.random() * colorCode.length)] +
+                colorCode[Math.floor(Math.random() * colorCode.length)];
               return colorCodeGen;
             }
           } else {
@@ -1186,12 +1346,15 @@ function Mango() {
 
         if (canvas.looper_property.isRunning == true) {
           canvas.loopers.forEach((looper) => {
-            if (canvas.looper_property.class_mode == true && looper.enabled == true) {
-              looper.script()
+            if (
+              canvas.looper_property.class_mode == true &&
+              looper.enabled == true
+            ) {
+              looper.script();
             } else {
-              looper()
+              looper();
             }
-          })
+          });
         }
 
         if (canvas.app.onupdate instanceof Function) {
@@ -1201,23 +1364,25 @@ function Mango() {
         }
         //}
         global.time += 1;
-        global.nowTime = Date.now()
-        global.dt = global.lastTime ? (global.nowTime - global.lastTime) / 1000 : 0
-        global.lastTime = global.nowTime
-        canvas.specialRender()
-      })
+        global.nowTime = Date.now();
+        global.dt = global.lastTime ?
+          (global.nowTime - global.lastTime) / 1000 :
+          0;
+        global.lastTime = global.nowTime;
+        canvas.specialRender();
+      });
     },
-    entityGroup: class entityGroup {
+    entityGroup: class EntityGroup {
       constructor(name) {
-        name == undefined ? null : this.name = name
+        name == undefined ? null : (this.name = name);
       }
-      type = 'eGroup'
+      type = "eGroup";
       name = null;
       entities = [];
       add(entity) {
-        this.entities.push(entity)
+        this.entities.push(entity);
       }
-    }
+    },
   };
 
   return canvas;

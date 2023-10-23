@@ -187,7 +187,7 @@ canvas {
   top: 28px;
   right: 0;
   z-index: 9;
-  overflow: scroll
+  overflow: scroll !important;
 }
 
 
